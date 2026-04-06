@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Service - MOBILE ENGINEER</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .navbar { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-brand { font-size: 24px; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-menu { display: flex; gap: 25px; }
+        .nav-link { color: #4a5568; text-decoration: none; font-weight: 600; padding: 10px 20px; border-radius: 10px; transition: all 0.3s ease; }
+        .nav-link.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px 30px; }
+        .page-header { text-align: center; margin-bottom: 40px; color: white; }
+        .page-header h1 { font-size: 42px; font-weight: 800; margin-bottom: 15px; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 40px; }
+        .service-card { background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); border-radius: 24px; padding: 35px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); transition: all 0.4s ease; border: 2px solid transparent; position: relative; overflow: hidden; }
+        .service-card:hover { transform: translateY(-12px); box-shadow: 0 30px 80px rgba(102, 126, 234, 0.25); border-color: #667eea; }
+        .service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .service-icon { width: 70px; height: 70px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3); }
+        .service-icon i { color: white; font-size: 32px; }
+        .service-title { font-size: 22px; font-weight: 700; color: #1a202c; margin-bottom: 12px; line-height: 1.3; }
+        .service-description { color: #64748b; font-size: 14px; line-height: 1.6; margin-bottom: 20px; min-height: 45px; }
+        .service-price { font-size: 32px; font-weight: 800; color: #10b981; margin-bottom: 20px; display: flex; align-items: baseline; gap: 5px; }
+        .service-price span { font-size: 14px; color: #94a3b8; font-weight: 500; }
+        .service-features { list-style: none; margin-bottom: 25px; padding: 0; }
+        .service-features li { color: #475569; font-size: 13px; padding: 8px 0; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #f1f5f9; }
+        .service-features li:last-child { border-bottom: none; }
+        .service-features li i { color: #10b981; font-size: 14px; }
+        .book-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3); }
+        .book-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4); }
+        .category-badge { position: absolute; top: 20px; right: 20px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-mobile-alt"></i>
+            MOBILE ENGINEER
+        </div>
+        <div class="nav-menu">
+            <a href="/dashboard" class="nav-link">Dashboard</a>
+            <a href="/mobiles" class="nav-link">Mobiles</a>
+            <a href="/accessories" class="nav-link">Accessories</a>
+            <a href="/basic-service" class="nav-link active">Services</a>
+            <a href="#" class="nav-link logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-tools"></i> Basic Services</h1>
+            <p>Professional mobile repair services with warranty & quality assurance</p>
+        </div>
+
+        <div class="services-grid">
+            <!-- Service 1: Display / Touch Screen Replacement -->
+            <div class="service-card">
+                <span class="category-badge">Popular</span>
+                <div class="service-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3 class="service-title">Display / Touch Screen Replacement</h3>
+                <p class="service-description">Original quality display replacement with touch sensitivity calibration</p>
+                <div class="service-price">₹2,499 <span>onwards</span></div>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Original quality parts</li>
+                    <li><i class="fas fa-check"></i> 6 months warranty</li>
+                    <li><i class="fas fa-check"></i> Same day service</li>
+                </ul>
+                <button class="book-btn" onclick="bookService('Display Replacement')">Book Service</button>
+            </div>
+
+            <!-- Service 2: Camera Replacement -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-camera"></i>
+                </div>
+                <h3 class="service-title">Camera Replacement</h3>
+                <p class="service-description">Front & rear camera replacement with lens cleaning</p>
+                <div class="service-price">₹1,999 <span>onwards</span></div>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> OEM quality cameras</li>
+                    <li><i class="fas fa-check"></i> 3 months warranty</li>
+                    <li><i class="fas fa-check"></i> Focus calibration</li>
+                </ul>
+                <button class="book-btn" onclick="bookService('Camera Replacement')">Book Service</button>
+            </div>
+
+            <!-- Service 3: Speaker / Mic Replacement -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-microphone"></i>
+                </div>
+                <h3 class="service-title">Speaker / Mic Replacement</h3>
+                <p class="service-description">Clear audio restoration with genuine speaker components</p>
+                <div class="service-price">₹899 <span>onwards</span></div>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Clear audio output</li>
+                    <li><i class="fas fa-check"></i> Noise cancellation fix</li>
+                    <li><i class="fas fa-check"></i> 3 months warranty</li>
+                </ul>
+                <button class="book-btn" onclick="bookService('Speaker Mic Repair')">Book Service</button>
+            </div>
+
+            <!-- Service 4: Charging Port Replacement -->
+            <div class="service-card">
+                <span class="category-badge">Essential</span>
+                <div class="service-icon">
+                    <i class="fas fa-plug"></i>
+                </div>
+                <h3 class="service-title">Charging Port Replacement</h3>
+                <p class="service-description">Fix loose charging port, fast charging support restoration</p>
+                <div class="service-price">₹1,299 <span>onwards</span></div>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Fast charging enabled</li>
+                    <li><i class="fas fa-check"></i> Data transfer support</li>
+                    <li><i class="fas fa-check"></i> 6 months warranty</li>
+                </ul>
+                <button class="book-btn" onclick="bookService('Charging Port')">Book Service</button>
+            </div>
+
+            <!-- Service 5: Volume & Power Button Repair -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-toggle-on"></i>
+                </div>
+                <h3 class="service-title">Volume & Power Button Repair</h3>
+                <p class="service-description">Fix unresponsive buttons with genuine flex cable replacement</p>
+                <div class="service-price">₹799 <span>onwards</span></div>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Tactile response restored</li>
+                    <li><i class="fas fa-check"></i> OEM button components</li>
+                    <li><i class="fas fa-check"></i> 3 months warranty</li>
+                </ul>
+                <button class="book-btn" onclick="bookService('Button Repair')">Book Service</button>
+            </div>
+
+            <!-- Service 6: Battery Connector Repair -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-battery-full"></i>
+                </div>
+                <h3 class="service-title">Battery Connector Repair</h3>
+                <p class="service-description">Fix charging issues, battery not detected problems</p>
+                <div class="service-price">₹999 <span>onwards</span></div>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Proper power connection</li>
+                    <li><i class="fas fa-check"></i> Battery health check</li>
+                    <li><i class="fas fa-check"></i> 3 months warranty</li>
+                </ul>
+                <button class="book-btn" onclick="bookService('Battery Connector')">Book Service</button>
+            </div>
+
+            <!-- Service 7: Network Issue Fixing -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-signal"></i>
+                </div>
+                <h3 class="service-title">Network Issue Fixing</h3>
+                <p class="service-description">Fix no signal, antenna issues, weak network reception</p>
+                <div class="service-price">₹1,499 <span>onwards</span></div>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Antenna repair/replace</li>
+                    <li><i class="fas fa-check"></i> Signal boost fix</li>
+                    <li><i class="fas fa-check"></i> 4G/5G support restored</li>
+                </ul>
+                <button class="book-btn" onclick="bookService('Network Repair')">Book Service</button>
+            </div>
+
+            <!-- Service 8: Water Damage Basic Cleaning -->
+            <div class="service-card">
+                <span class="category-badge">Urgent</span>
+                <div class="service-icon">
+                    <i class="fas fa-tint"></i>
+                </div>
+                <h3 class="service-title">Water Damage Basic Cleaning</h3>
+                <p class="service-description">Ultrasonic cleaning, corrosion removal, drying treatment</p>
+                <div class="service-price">₹1,199 <span>onwards</span></div>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Ultrasonic bath cleaning</li>
+                    <li><i class="fas fa-check"></i> Corrosion treatment</li>
+                    <li><i class="fas fa-check"></i> Component testing</li>
+                </ul>
+                <button class="book-btn" onclick="bookService('Water Damage')">Book Service</button>
+            </div>
+
+            <!-- Service 9: Software Flashing -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-download"></i>
+                </div>
+                <h3 class="service-title">Software Flashing (OS Reinstall)</h3>
+                <p class="service-description">OS installation, firmware update, virus removal</p>
+                <div class="service-price">₹599 <span>onwards</span></div>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Latest OS installed</li>
+                    <li><i class="fas fa-check"></i> Data backup option</li>
+                    <li><i class="fas fa-check"></i> Malware removal</li>
+                </ul>
+                <button class="book-btn" onclick="bookService('Software Flashing')">Book Service</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function bookService(serviceName) {
+            window.location.href = `/service-booking?service=${encodeURIComponent(serviceName)}`;
+        }
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `position: fixed; top: 20px; right: 20px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 15px 20px; border-radius: 10px; z-index: 10000; font-weight: 600;`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            setTimeout(() => { notification.remove(); }, 3000);
+        }
+    </script>
+</body>
+</html>

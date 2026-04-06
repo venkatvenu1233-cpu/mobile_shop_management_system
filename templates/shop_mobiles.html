@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shop Mobiles</title>
+    <style>
+        body { font-family: Arial; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; }
+        h1 { color: #667eea; }
+        .redirect { display: inline-block; margin-top: 20px; padding: 10px 20px; background: #667eea; color: white; text-decoration: none; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Shop Mobiles</h1>
+        <p>Redirecting to mobiles page... <a href="{{ url_for('mobiles') }}" class="redirect">Click here</a></p>
+        <script>
+            setTimeout(() => {
+                window.location.href = "{{ url_for('mobiles') }}";
+            }, 1000);
+        </script>
+    </div>
+</body>
+</html>

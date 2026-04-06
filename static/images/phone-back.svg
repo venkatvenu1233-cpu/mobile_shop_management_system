@@ -1,0 +1,11 @@
+<!-- Back view placeholder -->
+<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="300" fill="#f0f0f0"/>
+  <rect x="50" y="80" width="200" height="140" rx="25" fill="#000000"/>
+  <rect x="70" y="100" width="160" height="100" rx="15" fill="#1a1a1a"/>
+  <circle cx="150" cy="150" r="45" fill="#333333"/>
+  <rect x="120" y="120" width="60" height="60" rx="8" fill="#444444"/>
+  <circle cx="150" cy="150" r="2" fill="#666666"/>
+  <rect x="110" y="110" width="80" height="80" rx="10" fill="#222222"/>
+  <text x="150" y="280" text-anchor="middle" fill="#000000" font-family="Arial" font-size="14">Back View</text>
+</svg>

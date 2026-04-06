@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Accessories - MOBILE ENGINEER</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.3) 0%, transparent 50%); animation: backgroundShift 20s ease-in-out infinite; z-index: 0; }
+        @keyframes backgroundShift { 0%, 100% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.1); } }
+        @keyframes slideIn { 0% { transform: translateX(100%); opacity: 0; } 100% { transform: translateX(0); opacity: 1; } }
+        .navbar { background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 1000; }
+        .nav-container { max-width: 1400px; margin: 0 auto; padding: 0 30px; display: flex; justify-content: space-between; align-items: center; height: 70px; }
+        .nav-brand { display: flex; align-items: center; gap: 15px; font-size: 24px; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-menu { display: flex; gap: 25px; align-items: center; }
+        .nav-link { color: #4a5568; text-decoration: none; font-weight: 600; padding: 10px 20px; border-radius: 10px; transition: all 0.3s ease; }
+        .nav-link:hover { color: #667eea; transform: translateY(-2px); }
+        .nav-link.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .cart-button { position: relative; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 12px 20px; border-radius: 10px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; }
+        .cart-button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3); }
+        .cart-count { position: absolute; top: -8px; right: -8px; background: #ef4444; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+        .profile-dropdown { position: relative; }
+        .profile-button { display: flex; align-items: center; gap: 10px; padding: 10px 20px; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 2px solid #334155; border-radius: 12px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+        .profile-button:hover { background: linear-gradient(135deg, #334155 0%, #1e293b 100%); border-color: #667eea; transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); }
+        .profile-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; }
+        .profile-menu { position: absolute; top: calc(100% + 10px); right: 0; min-width: 220px; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid #334155; border-radius: 16px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4); opacity: 0; visibility: hidden; transform: translateY(-10px) scale(0.95); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000; overflow: hidden; }
+        .profile-menu.active { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+        .profile-header { padding: 20px; background: linear-gradient(135deg, #334155 0%, #1e293b 100%); border-bottom: 1px solid #475569; }
+        .profile-name { font-size: 16px; font-weight: 700; color: white; margin-bottom: 4px; }
+        .profile-email { font-size: 12px; color: #94a3b8; }
+        .profile-menu-items { padding: 8px; }
+        .profile-menu-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 10px; color: #e2e8f0; text-decoration: none; font-size: 14px; font-weight: 500; transition: all 0.2s ease; }
+        .profile-menu-item:hover { background: linear-gradient(135deg, #334155 0%, #475569 100%); color: white; transform: translateX(4px); }
+        .profile-menu-item i { width: 20px; text-align: center; font-size: 16px; color: #667eea; }
+        .profile-menu-item:hover i { color: #764ba2; }
+        .profile-menu-divider { height: 1px; background: #334155; margin: 8px 12px; }
+        .profile-menu-item.logout { color: #ef4444; }
+        .profile-menu-item.logout:hover { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; }
+        .profile-menu-item.logout i { color: #ef4444; }
+        .profile-menu-item.logout:hover i { color: white; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px 30px; position: relative; z-index: 1; }
+        .page-header { text-align: center; margin-bottom: 40px; color: white; }
+        .page-header h1 { font-size: 42px; font-weight: 800; margin-bottom: 15px; text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+        .categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .category-btn { padding: 15px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%); border: none; border-radius: 15px; font-weight: 600; color: #4a5568; cursor: pointer; transition: all 0.3s ease; }
+        .category-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); }
+        .category-btn.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        .product-card { background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.9) 100%); backdrop-filter: blur(20px); border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15); transition: all 0.4s ease; }
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.2); }
+        .product-image { width: 100%; height: 200px; background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%); display: flex; align-items: center; justify-content: center; font-size: 80px; color: #cbd5e0; overflow: hidden; }
+        .product-image img { width: 100%; height: 100%; object-fit: cover; }
+        .product-info { padding: 25px; }
+        .product-name { font-size: 20px; font-weight: 700; color: #1a202c; margin-bottom: 10px; }
+        .product-price { font-size: 24px; font-weight: 800; color: #10b981; margin-bottom: 15px; }
+        .product-specs { margin-bottom: 15px; font-size: 14px; color: #4a5568; }
+        .product-specs ul { list-style: none; padding: 0; }
+        .product-specs li { margin-bottom: 5px; }
+        .product-actions { display: flex; gap: 10px; }
+        .btn-buy { flex: 1; padding: 12px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+        .btn-cart { padding: 12px 16px; background: white; border: 2px solid #e2e8F0; border-radius: 10px; color: #4a5568; cursor: pointer; transition: all 0.3s ease; }
+        .btn-buy:hover, .btn-cart:hover { transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-mobile-alt"></i>
+                MOBILE ENGINEER
+            </div>
+            <div class="nav-menu">
+                <a href="/dashboard" class="nav-link">Dashboard</a>
+                <a href="/mobiles" class="nav-link">Mobiles</a>
+                <a href="/accessories" class="nav-link active">Accessories</a>
+                <a href="/basic-service" class="nav-link">Services</a>
+                <a href="/cart" class="cart-button">
+                    <i class="fas fa-shopping-cart"></i>
+                    Cart
+                    <span class="cart-count" id="cartCount">0</span>
+                </a>
+                <div class="profile-dropdown">
+                    <button class="profile-button" onclick="toggleProfileMenu()">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span>Profile</span>
+                        <i class="fas fa-chevron-down" style="font-size: 12px;"></i>
+                    </button>
+                    <div class="profile-menu" id="profileMenu">
+                        <div class="profile-header">
+                            <div class="profile-name">User Name</div>
+                            <div class="profile-email">user@example.com</div>
+                        </div>
+                        <div class="profile-menu-items">
+                            <a href="/edit-profile" class="profile-menu-item">
+                                <i class="fas fa-edit"></i>
+                                <span>Edit Profile</span>
+                            </a>
+                            <a href="/saved-address" class="profile-menu-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Saved Addresses</span>
+                            </a>
+                            <a href="/orders" class="profile-menu-item">
+                                <i class="fas fa-shopping-bag"></i>
+                                <span>My Orders</span>
+                            </a>
+                            <a href="/service_requests" class="profile-menu-item">
+                                <i class="fas fa-tools"></i>
+                                <span>My Service Requests</span>
+                            </a>
+                            <div class="profile-menu-divider"></div>
+                            <a href="#" class="profile-menu-item logout" onclick="handleLogout()">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>Mobile Accessories</h1>
+            <p>Premium accessories for your mobile devices</p>
+        </div>
+
+        <div class="categories">
+            <button class="category-btn active" data-category="all">All</button>
+            <button class="category-btn" data-category="cases">Cases</button>
+            <button class="category-btn" data-category="chargers">Chargers</button>
+            <button class="category-btn" data-category="headphones">Headphones</button>
+            <button class="category-btn" data-category="screen-protectors">Screen Protectors</button>
+            <button class="category-btn" data-category="power-banks">Power Banks</button>
+        </div>
+
+        <div class="products-grid">
+            <!-- Cases -->
+            <div class="product-card" data-category="cases">
+                <div class="product-image">
+                    <img src="https://casegear.in/cdn/shop/files/bold_pro_15_Blue.png?v=1763104346&width=800" alt="Premium Phone Case" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Premium Phone Case - Comfortable for iPhone 15</h3>
+                    <div class="product-price">₹999</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Compatible with iPhone 15</li>
+                            <li>Shockproof design</li>
+                            <li>Wireless charging compatible</li>
+                            <li>Matte finish</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Premium Phone Case')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="cases">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/817NtVyIG2L._SX522_.jpg" alt="Leather Phone Case" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Leather Phone Case - Comfortable for Samsung Galaxy S24</h3>
+                    <div class="product-price">₹1,299</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Genuine leather material</li>
+                            <li>Magnetic closure</li>
+                            <li>Card holder slots</li>
+                            <li>Premium finish</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Leather Phone Case')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="cases">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/61yVZa9jImL._SX522_.jpg" alt="Silicone Phone Case" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Silicone Phone Case - Comfortable for Redmi Note 13 Pro</h3>
+                    <div class="product-price">₹699</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Soft silicone material</li>
+                            <li>Anti-slip grip</li>
+                            <li>Shock absorption</li>
+                            <li>Available in multiple colors</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Silicone Phone Case')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="cases">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/61c+m4zqktL._SX522_.jpg" alt="Clear Phone Case" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Clear Phone Case - Comfortable for OnePlus 12</h3>
+                    <div class="product-price">₹799</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Transparent design</li>
+                            <li>Shows original phone color</li>
+                            <li>Impact resistant</li>
+                            <li>Easy to clean</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Clear Phone Case')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="cases">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/81z4x2CG49L._AC_UY327_FMwebp_QL65_.jpg" alt="Wallet Phone Case" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Wallet Phone Case - Comfortable for Google Pixel 8</h3>
+                    <div class="product-price">₹1,499</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Built-in card slots</li>
+                            <li>Flip cover design</li>
+                            <li>RFID blocking</li>
+                            <li>Stand function</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Wallet Phone Case')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="cases">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/71WrrsjTZ5L._SX679_.jpg" alt="Armored Phone Case" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Armored Phone Case - Comfortable for Realme 11 Pro</h3>
+                    <div class="product-price">₹1,199</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Military grade protection</li>
+                            <li>Drop tested up to 10ft</li>
+                            <li>Screen protector included</li>
+                            <li>Heavy duty design</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Armored Phone Case')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="cases">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/613TovHLKzL._SX522_.jpg" alt="Gel Phone Case" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Gel Phone Case - Comfortable for Poco X6 Pro</h3>
+                    <div class="product-price">₹599</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Soft gel material</li>
+                            <li>Flexible and durable</li>
+                            <li>Non-slip texture</li>
+                            <li>Lightweight</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Gel Phone Case')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="cases">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/51qoBUlX9EL._SX522_.jpg" alt="Ring Phone Case" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Ring Phone Case - Comfortable for Vivo X100</h3>
+                    <div class="product-price">₹899</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Built-in finger ring</li>
+                            <li>360° rotation</li>
+                            <li>Comfortable grip</li>
+                            <li>Stylish design</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Ring Phone Case')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="cases">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/81e-4RqQWwL._SL1500_.jpg" alt="Book Phone Case" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Book Phone Case - Comfortable for Oppo Find X7</h3>
+                    <div class="product-price">₹1,099</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Book-style flip cover</li>
+                            <li>Auto wake/sleep</li>
+                            <li>Card pockets</li>
+                            <li>Premium leather</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Book Phone Case')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="cases">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/7119P+hyUBL._SX522_.jpg" alt="Metal Phone Case" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Metal Phone Case - Comfortable for Nothing Phone 2</h3>
+                    <div class="product-price">₹1,399</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Aluminum alloy frame</li>
+                            <li>Slim profile</li>
+                            <li>Heat dissipation</li>
+                            <li>Premium finish</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Metal Phone Case')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Chargers -->
+            <div class="product-card" data-category="chargers">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/51Bb0p36diL._SX522_.jpg" alt="Fast Charger" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Fast Charger</h3>
+                    <div class="product-price">₹1,499</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>25W fast charging</li>
+                            <li>USB-C to USB-C</li>
+                            <li>Compatible with all USB-C devices</li>
+                            <li>Compact design</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Fast Charger')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="chargers">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/51iBj48i8zL._SX679_.jpg" alt="Wireless Charger" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Wireless Charger</h3>
+                    <div class="product-price">₹2,499</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>15W wireless charging</li>
+                            <li>Qi compatible</li>
+                            <li>LED status indicator</li>
+                            <li>Overheat protection</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Wireless Charger')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="chargers">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/51Vnr8EwR6L._SL1200_.jpg" alt="Car Charger" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Car Charger</h3>
+                    <div class="product-price">₹899</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>18W fast charging</li>
+                            <li>Cigarette lighter plug</li>
+                            <li>USB-A and USB-C ports</li>
+                            <li>Built-in safety features</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Car Charger')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="chargers">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/61eXyBrp1LL._SL1500_.jpg" alt="Wall Charger" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name"> Wall Charger</h3>
+                    <div class="product-price">₹1,299</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>20W PD charging</li>
+                            <li>USB-C port</li>
+                            <li>Universal compatibility</li>
+                            <li>Foldable plug</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Wall Charger')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="chargers">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/51DaEu8ilvL._AC_UY327_FMwebp_QL65_.jpg" alt="Multi-Port Charger" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Multi-Port Charger</h3>
+                    <div class="product-price">₹2,999</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>4 USB ports</li>
+                            <li>65W total output</li>
+                            <li>Smart charging</li>
+                            <li>Compact design</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Multi-Port Charger')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="chargers">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/5104paTwzML._SL1200_.jpg" alt="USB Hub Charger" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">USB Hub Charger</h3>
+                    <div class="product-price">₹1,799</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>3 USB ports + Ethernet</li>
+                            <li>100W PD charging</li>
+                            <li>HDMI and USB-C</li>
+                            <li>Aluminum body</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('USB Hub Charger')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="chargers">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/51SU4Z98xZL._AC_UY327_FMwebp_QL65_.jpg" alt="MagSafe Charger" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">MagSafe Charger</h3>
+                    <div class="product-price">₹3,499</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Magnetic attachment</li>
+                            <li>15W wireless charging</li>
+                            <li>iPhone compatible</li>
+                            <li>LED indicator</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('MagSafe Charger')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="chargers">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/61BA5tGWcaL._SX679_.jpg" alt="Portable Charger" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Portable Charger</h3>
+                    <div class="product-price">₹1,999</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>10000mAh capacity</li>
+                            <li>22.5W output</li>
+                            <li>USB-C and USB-A</li>
+                            <li>LED display</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Portable Charger')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="chargers">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/71XCvXRtDJL._AC_UY327_FMwebp_QL65_.jpg" alt="Solar Charger" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Solar Charger</h3>
+                    <div class="product-price">₹4,999</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Solar panel charging</li>
+                            <li>20000mAh battery</li>
+                            <li>Multiple output ports</li>
+                            <li>Waterproof design</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Solar Charger')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Headphones -->
+            <div class="product-card" data-category="headphones">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/51oyBaXOGbL._AC_UY327_FMwebp_QL65_.jpg" alt="Wireless Headphones" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Wireless Headphones</h3>
+                    <div class="product-price">₹2,999</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Bluetooth 5.0</li>
+                            <li>30-hour battery life</li>
+                            <li>Noise cancellation</li>
+                            <li>Foldable design</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Wireless Headphones')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="headphones">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/51ZX74-s9DL._SX679_.jpg" alt="Over-Ear Headphones" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Over-Ear Headphones</h3>
+                    <div class="product-price">₹4,999</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Active noise cancellation</li>
+                            <li>40mm drivers</li>
+                            <li>30-hour battery</li>
+                            <li>Comfortable padding</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Over-Ear Headphones')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="headphones">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/61GN+UNlKQL._AC_UY327_FMwebp_QL65_.jpg" alt="In-Ear Headphones" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">In-Ear Headphones</h3>
+                    <div class="product-price">₹1,999</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>True wireless</li>
+                            <li>Touch controls</li>
+                            <li>20-hour battery</li>
+                            <li>Sweat resistant</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('In-Ear Headphones')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="headphones">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/41SkA5j2l-L._SY300_SX300_QL70_FMwebp_.jpg" alt="Gaming Headphones" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Gaming Headphones</h3>
+                    <div class="product-price">₹3,499</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>7.1 surround sound</li>
+                            <li>RGB lighting</li>
+                            <li>Microphone included</li>
+                            <li>Detachable cable</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Gaming Headphones')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="headphones">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/31818K7ii3L._SY300_SX300_QL70_FMwebp_.jpg" alt="Noise Canceling Headphones" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Noise Canceling Headphones</h3>
+                    <div class="product-price">₹5,999</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Advanced ANC</li>
+                            <li>Hi-Res audio</li>
+                            <li>40-hour battery</li>
+                            <li>Premium materials</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Noise Canceling Headphones')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="headphones">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/71iVtCOrKPL._AC_UY327_FMwebp_QL65_.jpg" alt="Wireless Earbuds" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Wireless Earbuds</h3>
+                    <div class="product-price">₹2,499</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>True wireless design</li>
+                            <li>Touch controls</li>
+                            <li>24-hour battery</li>
+                            <li>Charging case included</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Wireless Earbuds')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="headphones">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/31agTeaF2IL._SY300_SX300_QL70_FMwebp_.jpg" alt="Sports Headphones" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Sports Headphones</h3>
+                    <div class="product-price">₹1,799</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Sweat resistant</li>
+                            <li>Secure fit</li>
+                            <li>Lightweight design</li>
+                            <li>8-hour battery</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Sports Headphones')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="headphones">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/71PVNygRkCL._AC_UL480_FMwebp_QL65_.jpg" alt="Studio Headphones" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Studio Headphones</h3>
+                    <div class="product-price">₹6,999</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Professional audio</li>
+                            <li>50mm drivers</li>
+                            <li>Detachable cable</li>
+                            <li>Foldable design</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Studio Headphones')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="headphones">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/61FgU7NpeFL._AC_UY327_FMwebp_QL65_.jpg" alt="Kids Headphones" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Kids Headphones</h3>
+                    <div class="product-price">₹1,299</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Volume limiting</li>
+                            <li>Bright colors</li>
+                            <li>Comfortable fit</li>
+                            <li>8-hour battery</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Kids Headphones')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Screen Protectors -->
+            <div class="product-card" data-category="screen-protectors">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/712iSQLtThL._AC_UY327_FMwebp_QL65_.jpg" alt="Tempered Glass Screen Protector" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Tempered Glass Screen Protector - Comfortable for Redmi Note 9 Pro</h3>
+                    <div class="product-price">₹499</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>9H hardness</li>
+                            <li>99.9% transparency</li>
+                            <li>Anti-fingerprint coating</li>
+                            <li>Easy installation</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Tempered Glass Screen Protector')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="screen-protectors">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/610V3nH8c5L._AC_UY327_FMwebp_QL65_.jpg" alt="Privacy Screen Protector" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Privacy Screen Protector - Comfortable for Samsung Galaxy S24 Ultra</h3>
+                    <div class="product-price">₹799</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Anti-peeping technology</li>
+                            <li>60° viewing angle</li>
+                            <li>Blue light filter</li>
+                            <li>Scratch resistant</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Privacy Screen Protector')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="screen-protectors">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/71GSz4OV1GL._AC_UY327_FMwebp_QL65_.jpg" alt="Matte Screen Protector" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Matte Screen Protector - Comfortable for iPhone 15 Pro Max</h3>
+                    <div class="product-price">₹599</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Anti-glare surface</li>
+                            <li>Reduces fingerprints</li>
+                            <li>9H hardness</li>
+                            <li>Easy to apply</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Matte Screen Protector')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="screen-protectors">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/61kyoLVGIGL._AC_UY327_FMwebp_QL65_.jpg" alt="HD Screen Protector" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">HD Screen Protector - Comfortable for OnePlus 12</h3>
+                    <div class="product-price">₹699</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>High definition clarity</li>
+                            <li>99.99% transparency</li>
+                            <li>Oleophobic coating</li>
+                            <li>Bubble-free installation</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('HD Screen Protector')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="screen-protectors">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/71jlpFtqimL._AC_UY327_FMwebp_QL65_.jpg" alt="Anti-Blue Light Screen Protector" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Anti-Blue Light Screen Protector - Comfortable for Google Pixel 8 Pro</h3>
+                    <div class="product-price">₹899</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Blocks 99% blue light</li>
+                            <li>Eye protection</li>
+                            <li>9H hardness</li>
+                            <li>Color accurate</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Anti-Blue Light Screen Protector')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="screen-protectors">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/81q15x7HGdL._AC_UY327_FMwebp_QL65_.jpg" alt="Curved Screen Protector" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Curved Screen Protector - Comfortable for Realme 11 Pro/h3>
+                    <div class="product-price">₹999</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Edge-to-edge protection</li>
+                            <li>3D curved design</li>
+                            <li>Self-healing coating</li>
+                            <li>Premium glass</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Curved Screen Protector')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="screen-protectors">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/61gX1+8yXwL._AC_UY327_FMwebp_QL65_.jpg" alt="Hydrogel Screen Protector" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Hydrogel Screen Protector - Comfortable for Vivo X100</h3>
+                    <div class="product-price">₹399</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Ultra-thin design</li>
+                            <li>Self-adhesive</li>
+                            <li>Removable without residue</li>
+                            <li>Budget friendly</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Hydrogel Screen Protector')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="screen-protectors">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/71Y0HjhmoYL._AC_UY327_FMwebp_QL65_.jpg" alt="Camera Lens Protector" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Camera Lens Protector - Comfortable for Oppo Find X7</h3>
+                    <div class="product-price">₹299</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Protects rear camera</li>
+                            <li>9H tempered glass</li>
+                            <li>Precise fit</li>
+                            <li>Easy installation</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Camera Lens Protector')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="screen-protectors">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/71f++L5iKWL._AC_UY327_FMwebp_QL65_.jpg" alt="Full Coverage Screen Protector" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Full Coverage Screen Protector - Comfortable for Nothing Phone 2</h3>
+                    <div class="product-price">₹1,199</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Covers entire screen</li>
+                            <li>Includes camera protection</li>
+                            <li>9H hardness</li>
+                            <li>Premium protection</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Full Coverage Screen Protector')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Power Banks -->
+            <div class="product-card" data-category="power-banks">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/81ro+knV+HL._AC_UY327_FMwebp_QL65_.jpg" alt="Power Bank 10000mAh" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Power Bank 10000mAh</h3>
+                    <div class="product-price">₹1,999</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>10000mAh capacity</li>
+                            <li>22.5W fast charging</li>
+                            <li>Dual USB output</li>
+                            <li>LED indicator</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Power Bank 10000mAh')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="power-banks">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/61YLrPkmW1L._AC_UY327_FMwebp_QL65_.jpg" alt="Power Bank 20000mAh" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Power Bank 20000mAh</h3>
+                    <div class="product-price">₹2,999</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>20000mAh capacity</li>
+                            <li>45W fast charging</li>
+                            <li>Triple USB output</li>
+                            <li>Digital display</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Power Bank 20000mAh')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="power-banks">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/61H84kDDNFL._AC_UY327_FMwebp_QL65_.jpg" alt="Wireless Power Bank" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Wireless Power Bank</h3>
+                    <div class="product-price">₹3,499</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>10000mAh capacity</li>
+                            <li>15W wireless charging</li>
+                            <li>USB-C input/output</li>
+                            <li>Qi compatible</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Wireless Power Bank')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="power-banks">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/41f9X1MwrpL._AC_UY327_FMwebp_QL65_.jpg" alt="Slim Power Bank" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Slim Power Bank</h3>
+                    <div class="product-price">₹1,499</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>5000mAh capacity</li>
+                            <li>Ultra slim design</li>
+                            <li>USB-C and USB-A</li>
+                            <li>Lightweight</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Slim Power Bank')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="power-banks">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/61hATN4H+dL._AC_UL480_FMwebp_QL65_.jpg" alt="High Capacity Power Bank" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">High Capacity Power Bank</h3>
+                    <div class="product-price">₹4,999</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>30000mAh capacity</li>
+                            <li>65W PD charging</li>
+                            <li>Multiple ports</li>
+                            <li>LCD display</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('High Capacity Power Bank')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="power-banks">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/71XCvXRtDJL._AC_UY327_FMwebp_QL65_.jpg" alt="Solar Power Bank" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Solar Power Bank</h3>
+                    <div class="product-price">₹5,999</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Solar panel charging</li>
+                            <li>20000mAh battery</li>
+                            <li>Waterproof design</li>
+                            <li>Emergency charging</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Solar Power Bank')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="power-banks">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/41hzW-GVnRL._SY300_SX300_QL70_FMwebp_.jpg" alt="Magnetic Power Bank" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Magnetic Power Bank</h3>
+                    <div class="product-price">₹2,799</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>Magnetic attachment</li>
+                            <li>10000mAh capacity</li>
+                            <li>Wireless charging</li>
+                            <li>Compact size</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Magnetic Power Bank')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="power-banks">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/61JoC0mwKxL._AC_UY327_FMwebp_QL65_.jpg" alt="Portable Power Station" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Portable Power Station</h3>
+                    <div class="product-price">₹9,999</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>50000mAh capacity</li>
+                            <li>Multiple AC outlets</li>
+                            <li>Solar compatible</li>
+                            <li>Emergency backup</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Portable Power Station')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="power-banks">
+                <div class="product-image">
+                    <img src="https://m.media-amazon.com/images/I/71SAsX2vGKL._AC_UY327_FMwebp_QL65_.jpg" alt="Quick Charge Power Bank" style="width: 100%; height: 100%; object-fit: contain; padding: 10px;">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-name">Quick Charge Power Bank</h3>
+                    <div class="product-price">₹2,499</div>
+                    <div class="product-specs">
+                        <ul>
+                            <li>10000mAh capacity</li>
+                            <li>QC 3.0 support</li>
+                            <li>USB-C PD</li>
+                            <li>Fast charging</li>
+                        </ul>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn-buy" onclick="buyNow(this)">Buy Now</button>
+                        <button class="btn-cart" onclick="addToCart('Quick Charge Power Bank')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Cart functionality
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        function addToCart(productName, buttonElement) {
+            // Get actual product data from the button's parent card
+            const productCard = buttonElement.closest('.product-card');
+            const productImage = productCard.querySelector('.product-image img').src;
+            const productPriceText = productCard.querySelector('.product-price').textContent;
+            
+            // Extract price from text (remove ₹ and commas)
+            const price = parseInt(productPriceText.replace(/[₹,]/g, ''));
+            
+            // Create item with actual product data
+            const item = {
+                name: productName,
+                brand: 'Mobile Engineer',
+                price: price,
+                quantity: 1,
+                image: productImage
+            };
+            
+            cart.push(item);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            showNotification(`${productName} added to cart!`, 'success');
+            
+            // Update cart count
+            updateCartCount();
+        }
+
+        // Buy Now function - stores product data and redirects to checkout
+        function buyNow(buttonElement) {
+            // Get actual product data from the button's parent card
+            const productCard = buttonElement.closest('.product-card');
+            const productName = productCard.querySelector('.product-name').textContent;
+            const productImage = productCard.querySelector('.product-image img').src;
+            const productPriceText = productCard.querySelector('.product-price').textContent;
+            
+            // Extract price from text (remove ₹ and commas)
+            const price = parseInt(productPriceText.replace(/[₹,]/g, ''));
+            
+            // Create checkout data
+            const checkoutData = {
+                items: [{
+                    name: productName,
+                    brand: 'Mobile Engineer',
+                    price: price,
+                    image: productImage,
+                    quantity: 1,
+                    timestamp: new Date().toISOString()
+                }],
+                subtotal: `₹${price.toLocaleString()}`,
+                discount: '₹0',
+                total: `₹${price.toLocaleString()}`
+            };
+            
+            // Store checkout data and redirect
+            localStorage.setItem('checkoutData', JSON.stringify(checkoutData));
+            window.location.href = '/checkout';
+        }
+
+        // Function to update all cart buttons to pass 'this' parameter
+        function updateCartButtons() {
+            const cartButtons = document.querySelectorAll('.btn-cart');
+            cartButtons.forEach(button => {
+                const onclick = button.getAttribute('onclick');
+                if (onclick && onclick.includes("addToCart")) {
+                    const productName = onclick.match(/addToCart\('([^']+)'\)/)[1];
+                    button.setAttribute('onclick', `addToCart('${productName}', this)`);
+                }
+            });
+        }
+
+        function showNotification(message, type = 'success') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 10px;
+                color: white;
+                font-weight: 600;
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            `;
+
+            // Set background color based on type
+            const colors = {
+                success: 'linear-gradient(135deg, #10b981, #059669)',
+                error: 'linear-gradient(135deg, #ef4444, #dc2626)',
+                warning: 'linear-gradient(135deg, #f59e0b, #d97706)',
+                info: 'linear-gradient(135deg, #3b82f6, #2563eb)'
+            };
+            notification.style.background = colors[type] || colors.success;
+            
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        function updateCartCount() {
+            // Update cart count badges on current page
+            const cartCountElements = document.querySelectorAll('.cart-count');
+            if (cartCountElements) {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartCountElements.forEach(element => {
+                    element.textContent = totalItems;
+                });
+            }
+        }
+
+        // Profile Dropdown Functions
+        function toggleProfileMenu() {
+            const menu = document.getElementById('profileMenu');
+            menu.classList.toggle('active');
+        }
+
+        function handleLogout() {
+            localStorage.removeItem('cart');
+            localStorage.removeItem('checkoutData');
+            showNotification('Logged out successfully');
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 1000);
+        }
+
+        // Close profile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const profileDropdown = document.querySelector('.profile-dropdown');
+            const profileMenu = document.getElementById('profileMenu');
+            if (profileDropdown && !profileDropdown.contains(event.target)) {
+                profileMenu.classList.remove('active');
+            }
+        });
+
+        // Add CSS for animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize cart count on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+            updateCartButtons(); // Update all cart buttons to pass 'this' parameter
+        });
+
+        // Category filtering
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            const productCards = document.querySelectorAll('.product-card');
+
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+
+                    const category = this.getAttribute('data-category');
+
+                    productCards.forEach(card => {
+                        if (category === 'all' || card.getAttribute('data-category') === category) {
+                            card.style.display = 'block';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

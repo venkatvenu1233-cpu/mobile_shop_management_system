@@ -1,0 +1,11 @@
+<!-- Side view placeholder -->
+<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="300" height="300" fill="#f0f0f0"/>
+  <rect x="80" y="60" width="140" height="180" rx="20" fill="#000000"/>
+  <rect x="90" y="70" width="120" height="160" rx="12" fill="#1a1a1a"/>
+  <circle cx="150" cy="150" r="40" fill="#333333"/>
+  <rect x="140" y="130" width="20" height="40" rx="3" fill="#000000"/>
+  <circle cx="150" cy="150" r="2" fill="#666666"/>
+  <rect x="130" y="120" width="40" height="60" rx="5" fill="#222222"/>
+  <text x="150" y="280" text-anchor="middle" fill="#000000" font-family="Arial" font-size="14">Side View</text>
+</svg>

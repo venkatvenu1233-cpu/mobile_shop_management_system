@@ -1,0 +1,10 @@
+<!-- Placeholder for iPhone 15 -->
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" fill="#f0f0f0"/>
+  <rect x="20" y="40" width="160" height="120" rx="20" fill="#000000"/>
+  <rect x="30" y="50" width="140" height="100" rx="15" fill="#1a1a1a"/>
+  <circle cx="100" cy="100" r="35" fill="#333333"/>
+  <rect x="90" y="90" width="20" height="20" rx="3" fill="#000000"/>
+  <circle cx="100" cy="100" r="2" fill="#666666"/>
+  <text x="100" y="180" text-anchor="middle" fill="#000000" font-family="Arial" font-size="12">APPLE</text>
+</svg>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chip Level Service - MOBILE ENGINEER</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .navbar { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-brand { font-size: 24px; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-menu { display: flex; gap: 25px; }
+        .nav-link { color: #4a5568; text-decoration: none; font-weight: 600; padding: 10px 20px; border-radius: 10px; transition: all 0.3s ease; }
+        .nav-link.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px 30px; }
+        .page-header { text-align: center; margin-bottom: 40px; color: white; }
+        .page-header h1 { font-size: 42px; font-weight: 800; margin-bottom: 15px; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-bottom: 40px; }
+        .service-card { background: rgba(255,255,255,0.98); backdrop-filter: blur(20px); border-radius: 24px; padding: 35px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); transition: all 0.4s ease; border: 2px solid transparent; position: relative; overflow: hidden; }
+        .service-card:hover { transform: translateY(-12px); box-shadow: 0 30px 80px rgba(102, 126, 234, 0.25); border-color: #667eea; }
+        .service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .service-icon { width: 70px; height: 70px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3); }
+        .service-icon i { color: white; font-size: 32px; }
+        .service-title { font-size: 22px; font-weight: 700; color: #1a202c; margin-bottom: 12px; line-height: 1.3; }
+        .service-description { color: #64748b; font-size: 14px; line-height: 1.6; margin-bottom: 20px; min-height: 45px; }
+        .service-price { font-size: 32px; font-weight: 800; color: #10b981; margin-bottom: 20px; display: flex; align-items: baseline; gap: 5px; }
+        .service-price span { font-size: 14px; color: #94a3b8; font-weight: 500; }
+        .service-features { list-style: none; margin-bottom: 25px; padding: 0; }
+        .service-features li { color: #475569; font-size: 13px; padding: 8px 0; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #f1f5f9; }
+        .service-features li:last-child { border-bottom: none; }
+        .service-features li i { color: #10b981; font-size: 14px; }
+        .book-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3); }
+        .book-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4); }
+        .category-badge { position: absolute; top: 20px; right: 20px; background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); color: white; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-mobile-alt"></i>
+            MOBILE ENGINEER
+        </div>
+        <div class="nav-menu">
+            <a href="/dashboard" class="nav-link">Dashboard</a>
+            <a href="/mobiles" class="nav-link">Mobiles</a>
+            <a href="/accessories" class="nav-link">Accessories</a>
+            <a href="/basic-service" class="nav-link">Services</a>
+            <a href="#" class="nav-link logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-microchip"></i> Chip Level Services</h1>
+            <p>Advanced motherboard repair, IC replacement & micro-soldering services</p>
+        </div>
+
+        <div class="services-grid">
+            <!-- Service 1: IC (Integrated Circuit) Replacement -->
+            <div class="service-card">
+                <span class="category-badge">Advanced</span>
+                <div class="service-icon">
+                    <i class="fas fa-microchip"></i>
+                </div>
+                <h3 class="service-title">IC (Integrated Circuit) Replacement</h3>
+                <p class="service-description">Professional IC removal and replacement using BGA rework station</p>
+                <div class="service-price">₹3,999 <span>onwards</span></div>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> BGA rework station</li>
+                    <li><i class="fas fa-check"></i> Original IC chips</li>
+                    <li><i class="fas fa-check"></i> 6 months warranty</li>
+                </ul>
+                <button class="book-btn" onclick="bookService('IC Replacement')">Book Service</button>
+            </div>
+
+            <!-- Service 2: Power IC Repair -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3 class="service-title">Power IC Repair</h3>
+                <p class="service-description">Fix power-related issues, battery charging problems, power management</p>
+                <div class="service-price">₹2,499 <span>onwards</span></div>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Power management fix</li>
+                    <li><i class="fas fa-check"></i> Battery charging repair</li>
+                    <li><i class="fas fa-check"></i> 6 months warranty</li>
+                </ul>
+                <button class="book-btn" onclick="bookService('Power IC Repair')">Book Service</button>
+            </div>
+
+            <!-- Service 3: Charging IC Repair -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-plug"></i>
+                </div>
+                <h3 class="service-title">Charging IC Repair</h3>
+                <p class="service-description">Repair charging port IC, USB controller, fast charging issues</p>
+                <div class="service-price">₹1,999 <span>onwards</span></div>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> USB controller fix</li>
+                    <li><i class="fas fa-check"></i> Fast charging restore</li>
+                    <li><i class="fas fa-check"></i> 6 months warranty</li>
+                </ul>
+                <button class="book-btn" onclick="bookService('Charging IC Repair')">Book Service</button>
+            </div>
+
+            <!-- Service 4: Audio IC Repair -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-volume-up"></i>
+                </div>
+                <h3 class="service-title">Audio IC Repair</h3>
+                <p class="service-description">Fix no sound, speaker/mic issues, audio codec replacement</p>
+                <div class="service-price">₹1,799 <span>onwards</span></div>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Audio codec repair</li>
+                    <li><i class="fas fa-check"></i> Speaker/mic fix</li>
+                    <li><i class="fas fa-check"></i> 3 months warranty</li>
+                </ul>
+                <button class="book-btn" onclick="bookService('Audio IC Repair')">Book Service</button>
+            </div>
+
+            <!-- Service 5: Network IC Repair -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-signal"></i>
+                </div>
+                <h3 class="service-title">Network IC Repair</h3>
+                <p class="service-description">Fix network connectivity, WiFi, Bluetooth, cellular issues</p>
+                <div class="service-price">₹2,999 <span>onwards</span></div>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Network controller fix</li>
+                    <li><i class="fas fa-check"></i> WiFi/Bluetooth repair</li>
+                    <li><i class="fas fa-check"></i> 6 months warranty</li>
+                </ul>
+                <button class="book-btn" onclick="bookService('Network IC Repair')">Book Service</button>
+            </div>
+
+            <!-- Service 6: CPU Reballing / Repair -->
+            <div class="service-card">
+                <span class="category-badge">Expert</span>
+                <div class="service-icon">
+                    <i class="fas fa-microchip"></i>
+                </div>
+                <h3 class="service-title">CPU Reballing / Repair</h3>
+                <p class="service-description">CPU rebelling, processor repair, overheating fix, performance restore</p>
+                <div class="service-price">₹4,999 <span>onwards</span></div>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> CPU reballing</li>
+                    <li><i class="fas fa-check"></i> Overheating fix</li>
+                    <li><i class="fas fa-check"></i> 6 months warranty</li>
+                </ul>
+                <button class="book-btn" onclick="bookService('CPU Reballing')">Book Service</button>
+            </div>
+
+            <!-- Service 7: eMMC / UFS IC Repair -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-hdd"></i>
+                </div>
+                <h3 class="service-title">eMMC / UFS IC Repair</h3>
+                <p class="service-description">Storage chip repair, memory IC replacement, data recovery possible</p>
+                <div class="service-price">₹3,499 <span>onwards</span></div>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Storage chip repair</li>
+                    <li><i class="fas fa-check"></i> Data recovery option</li>
+                    <li><i class="fas fa-check"></i> 6 months warranty</li>
+                </ul>
+                <button class="book-btn" onclick="bookService('eMMC UFS Repair')">Book Service</button>
+            </div>
+
+            <!-- Service 8: Motherboard Short-Circuit Repair -->
+            <div class="service-card">
+                <span class="category-badge">Critical</span>
+                <div class="service-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3 class="service-title">Motherboard Short-Circuit Repair</h3>
+                <p class="service-description">Fix short circuits, damaged tracks, burnt components replacement</p>
+                <div class="service-price">₹2,499 <span>onwards</span></div>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Short detection</li>
+                    <li><i class="fas fa-check"></i> Track repair</li>
+                    <li><i class="fas fa-check"></i> 6 months warranty</li>
+                </ul>
+                <button class="book-btn" onclick="bookService('Short Circuit Repair')">Book Service</button>
+            </div>
+
+            <!-- Service 9: Dead Phone Repair -->
+            <div class="service-card">
+                <span class="category-badge">Urgent</span>
+                <div class="service-icon">
+                    <i class="fas fa-power-off"></i>
+                </div>
+                <h3 class="service-title">Dead Phone Repair (No Power)</h3>
+                <p class="service-description">Revive completely dead phones, no power issue diagnosis and repair</p>
+                <div class="service-price">₹1,999 <span>onwards</span></div>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Power path repair</li>
+                    <li><i class="fas fa-check"></i> Component diagnosis</li>
+                    <li><i class="fas fa-check"></i> 6 months warranty</li>
+                </ul>
+                <button class="book-btn" onclick="bookService('Dead Phone Repair')">Book Service</button>
+            </div>
+
+            <!-- Service 10: Water Damage Chip-Level Repair -->
+            <div class="service-card">
+                <span class="category-badge">Urgent</span>
+                <div class="service-icon">
+                    <i class="fas fa-tint"></i>
+                </div>
+                <h3 class="service-title">Water Damage Chip-Level Repair</h3>
+                <p class="service-description">Deep water damage repair, corrosion removal, IC-level restoration</p>
+                <div class="service-price">₹2,999 <span>onwards</span></div>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Corrosion removal</li>
+                    <li><i class="fas fa-check"></i> IC-level repair</li>
+                    <li><i class="fas fa-check"></i> Success rate 85%</li>
+                </ul>
+                <button class="book-btn" onclick="bookService('Water Damage Chip')">Book Service</button>
+            </div>
+
+            <!-- Service 11: Baseband IC Repair -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-broadcast-tower"></i>
+                </div>
+                <h3 class="service-title">Baseband IC Repair (No Signal)</h3>
+                <p class="service-description">Fix no signal, searching network, IMEI issues, baseband processor</p>
+                <div class="service-price">₹3,499 <span>onwards</span></div>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Signal restore</li>
+                    <li><i class="fas fa-check"></i> IMEI repair</li>
+                    <li><i class="fas fa-check"></i> 6 months warranty</li>
+                </ul>
+                <button class="book-btn" onclick="bookService('Baseband IC Repair')">Book Service</button>
+            </div>
+
+            <!-- Service 12: Display IC Repair -->
+            <div class="service-card">
+                <div class="service-icon">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3 class="service-title">Display IC / Touch IC Repair</h3>
+                <p class="service-description">Fix display issues, touch problems, LCD driver IC replacement</p>
+                <div class="service-price">₹2,199 <span>onwards</span></div>
+                <ul class="service-features">
+                    <li><i class="fas fa-check"></i> Display driver fix</li>
+                    <li><i class="fas fa-check"></i> Touch IC repair</li>
+                    <li><i class="fas fa-check"></i> 3 months warranty</li>
+                </ul>
+                <button class="book-btn" onclick="bookService('Display Touch IC')">Book Service</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function bookService(serviceName) {
+            window.location.href = `/service-booking?service=${encodeURIComponent(serviceName)}`;
+        }
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `position: fixed; top: 20px; right: 20px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 15px 20px; border-radius: 10px; z-index: 10000; font-weight: 600;`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            setTimeout(() => { notification.remove(); }, 3000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Engineer - Web Launcher</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        .launcher-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 600px;
+        }
+        .logo {
+            font-size: 48px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        .title {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        .status {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-2px);
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+        .instructions {
+            margin-top: 30px;
+            text-align: left;
+            background: #e9ecef;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .instructions h3 {
+            color: #495057;
+            margin-top: 0;
+        }
+        .instructions ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin-bottom: 10px;
+            color: #495057;
+        }
+        .server-status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .server-running {
+            background: #d4edda;
+            color: #155724;
+        }
+        .server-stopped {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="launcher-container">
+        <div class="logo">📱 MOBILE ENGINEER</div>
+        <h1 class="title">Web Application Launcher</h1>
+        
+        <div class="server-status server-stopped" id="serverStatus">
+            🔴 Server Status: Checking...
+        </div>
+        
+        <div class="status" id="statusMessage">
+            Checking server status...
+        </div>
+        
+        <div>
+            <button class="btn" onclick="openWebApp()">
+                🌐 Open Web Application
+            </button>
+            <button class="btn btn-secondary" onclick="startServer()">
+                ▶️ Start Server
+            </button>
+        </div>
+        
+        <div class="instructions">
+            <h3>📋 Instructions:</h3>
+            <ol>
+                <li><strong>Start Server:</strong> Click "Start Server" to launch the Flask web server</li>
+                <li><strong>Open Web App:</strong> Click "Open Web Application" to access the mobile engineer system</li>
+                <li><strong>Auto-Start Setup:</strong> Run "setup_autostart.bat" to make server start automatically on Windows login</li>
+                <li><strong>Manual Start:</strong> Double-click "start_server.bat" to start server manually</li>
+                <li><strong>Default URL:</strong> http://127.0.0.1:5000</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Check server status
+        function checkServerStatus() {
+            const statusElement = document.getElementById('serverStatus');
+            const messageElement = document.getElementById('statusMessage');
+            
+            fetch('http://127.0.0.1:5000')
+                .then(response => {
+                    if (response.ok) {
+                        statusElement.className = 'server-status server-running';
+                        statusElement.innerHTML = '🟢 Server Status: Running';
+                        messageElement.innerHTML = '✅ Server is running successfully! Click "Open Web Application" to access the system.';
+                    } else {
+                        throw new Error('Server not responding');
+                    }
+                })
+                .catch(error => {
+                    statusElement.className = 'server-status server-stopped';
+                    statusElement.innerHTML = '🔴 Server Status: Stopped';
+                    messageElement.innerHTML = '❌ Server is not running. Click "Start Server" to launch the web application.';
+                });
+        }
+
+        // Open web application
+        function openWebApp() {
+            window.open('http://127.0.0.1:5000', '_blank');
+        }
+
+        // Start server (this will try to execute the batch file)
+        function startServer() {
+            const statusElement = document.getElementById('serverStatus');
+            const messageElement = document.getElementById('statusMessage');
+            
+            statusElement.className = 'server-status server-stopped';
+            statusElement.innerHTML = '🟡 Server Status: Starting...';
+            messageElement.innerHTML = '⏳ Starting server... Please wait a moment...';
+            
+            // Try to start server by opening the batch file
+            // Note: This may not work due to browser security, but provides instructions
+            alert('To start the server:\n\n1. Close this window\n2. Double-click "start_server.bat" in the mobile engineer folder\n3. Wait for the server to start\n4. Refresh this page to check status\n\nOr run "setup_autostart.bat" for automatic startup on Windows login.');
+            
+            // Check status again after a delay
+            setTimeout(checkServerStatus, 3000);
+        }
+
+        // Check status on page load
+        window.onload = function() {
+            checkServerStatus();
+            // Check status every 5 seconds
+            setInterval(checkServerStatus, 5000);
+        };
+    </script>
+</body>
+</html>

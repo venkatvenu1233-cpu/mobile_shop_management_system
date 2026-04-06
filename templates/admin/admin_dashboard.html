@@ -1,0 +1,2739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - MOBILE ENGINEER</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+            padding: 0;
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-header h2 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .sidebar-header p {
+            font-size: 12px;
+            opacity: 0.8;
+            color: #cbd5e1;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin: 0;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border-left-color: #3b82f6;
+        }
+
+        .sidebar-menu i {
+            width: 25px;
+            margin-right: 12px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 30px;
+            min-height: 100vh;
+        }
+
+        /* Top Header */
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .top-header h1 {
+            font-size: 28px;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            background: #f1f5f9;
+            border-radius: 50px;
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-top: 4px solid #3b82f6;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            right: -30px;
+            top: -30px;
+            width: 100px;
+            height: 100px;
+            background: rgba(59, 130, 246, 0.05);
+            border-radius: 50%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card.sales {
+            border-top-color: #10b981;
+        }
+
+        .stat-card.services {
+            border-top-color: #f59e0b;
+        }
+
+        .stat-card.stock {
+            border-top-color: #8b5cf6;
+        }
+
+        .stat-card.danger {
+            border-top-color: #ef4444;
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .stat-title {
+            font-size: 14px;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+        }
+
+        .stat-card.sales .stat-icon {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .stat-card.services .stat-icon {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .stat-card.stock .stat-icon {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+        }
+
+        .stat-card.danger .stat-icon {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 12px;
+        }
+
+        .stat-change {
+            font-size: 12px;
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Tables */
+        .table-container {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            overflow-x: auto;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .table-header h3 {
+            font-size: 18px;
+            color: #1e293b;
+            font-weight: 700;
+        }
+
+        .add-btn {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        thead {
+            background: #f8fafc;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 700;
+            color: #475569;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #475569;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-completed {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-in-progress {
+            background: #bfdbfe;
+            color: #1e40af;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-edit {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .btn-edit:hover {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-delete {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .btn-delete:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-complete {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .btn-complete:hover {
+            background: #10b981;
+            color: white;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .modal-header h2 {
+            font-size: 20px;
+            color: #1e293b;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #94a3b8;
+            cursor: pointer;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #475569;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .submit-btn {
+            flex: 1;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .cancel-btn {
+            flex: 1;
+            background: #f1f5f9;
+            color: #475569;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .cancel-btn:hover {
+            background: #e2e8f0;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #94a3b8;
+        }
+
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        /* Billing Styles */
+        .billing-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .billing-form-container {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-header {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .form-header h2 {
+            font-size: 20px;
+            color: #1e293b;
+            margin: 0;
+        }
+
+        .billing-form .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .billing-form .form-group {
+            margin-bottom: 15px;
+        }
+
+        .billing-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #475569;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .billing-form input,
+        .billing-form select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .billing-form input:focus,
+        .billing-form select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .billing-form .form-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .billing-summary {
+            grid-column: 1 / -1;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-top: 10px;
+        }
+
+        .billing-summary h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #1e293b;
+        }
+
+        /* Bill Modal Styles */
+        .bill-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 3000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .bill-modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bill-content {
+            background: white;
+            border-radius: 8px;
+            width: 95%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow: hidden;
+            animation: slideUp 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bill-header {
+            background: linear-gradient(135deg, #2874f0 0%, #1a56db 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .shop-info h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .shop-info p {
+            font-size: 14px;
+            opacity: 0.9;
+            margin: 5px 0 0 0;
+        }
+
+        .bill-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .bill-number {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .bill-date {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .bill-body {
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .customer-details {
+            margin-bottom: 20px;
+        }
+
+        .customer-details h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #212121;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 8px;
+        }
+
+        .detail-label {
+            font-weight: 500;
+            color: #666;
+            min-width: 80px;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: #212121;
+        }
+
+        .bill-items {
+            margin-bottom: 20px;
+        }
+
+        .bill-items h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #212121;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .items-table {
+            background: #f8f9fa;
+            border-radius: 4px;
+            padding: 16px;
+        }
+
+        #billItems {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .bill-item-row {
+            display: grid;
+            grid-template-columns: 3fr 1fr 1fr 1fr;
+            gap: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .bill-item-row:last-child {
+            border-bottom: none;
+        }
+
+        .bill-summary {
+            background: #f8f9fa;
+            border-radius: 4px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .summary-row.total {
+            border-top: 2px solid #e0e0e0;
+            padding-top: 8px;
+            margin-top: 8px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .summary-label {
+            color: #666;
+        }
+
+        .summary-value {
+            font-weight: 600;
+            color: #212121;
+        }
+
+        .total-amount {
+            color: #388e3c;
+            font-size: 18px;
+        }
+
+        .bill-footer {
+            background: #f8f9fa;
+            padding: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .shop-address {
+            margin-bottom: 20px;
+        }
+
+        .shop-address h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #212121;
+            margin-bottom: 12px;
+        }
+
+        .shop-address p {
+            margin: 4px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .payment-info {
+            margin-bottom: 20px;
+        }
+
+        .payment-info h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #212121;
+            margin-bottom: 12px;
+        }
+
+        .payment-info p {
+            margin: 4px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .terms {
+            text-align: center;
+            font-size: 12px;
+            color: #999;
+            line-height: 1.4;
+        }
+
+        .bill-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .bill-actions .btn {
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .btn-primary {
+            background: #2874f0;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1a56db;
+        }
+
+        .btn-success {
+            background: #388e3c;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #2e7d32;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 80px;
+            }
+
+            .main-content {
+                margin-left: 80px;
+                padding: 15px;
+            }
+
+            .sidebar-header p,
+            .sidebar-menu a span {
+                display: none;
+            }
+
+            .top-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            .billing-container {
+                grid-template-columns: 1fr;
+            }
+
+            .billing-summary {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>ME</h2>
+            <p>Admin Panel</p>
+        </div>
+        <ul class="sidebar-menu">
+            <li><a href="#" onclick="showSection('dashboard')" class="active"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="#" onclick="showSection('sales')"><i class="fas fa-shopping-cart"></i> Sales</a></li>
+            <li><a href="#" onclick="showSection('services')"><i class="fas fa-tools"></i> Services</a></li>
+            <li><a href="#" onclick="showSection('billing')"><i class="fas fa-receipt"></i> Billing</a></li>
+            <li><a href="#" onclick="showSection('stock')"><i class="fas fa-boxes"></i> Stock</a></li>
+            <li><a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Header -->
+        <div class="top-header">
+            <h1><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h1>
+            <div class="user-info">
+                <div class="user-profile">
+                    <div class="user-avatar">{{ session.username[0].upper() }}</div>
+                    <span>{{ session.username }}</span>
+                </div>
+                <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="content-section active">
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <!-- Sales Stats -->
+                <div class="stat-card sales">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-title">Today's Sales</div>
+                            <div class="stat-value">₹{{ "%.2f"|format(today_sales) }}</div>
+                            <div class="stat-label">{{ sales|length }} transactions</div>
+                        </div>
+                        <div class="stat-icon"><i class="fas fa-rupee-sign"></i></div>
+                    </div>
+                </div>
+
+                <div class="stat-card sales">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-title">Total Revenue</div>
+                            <div class="stat-value">₹{{ "%.2f"|format(total_revenue) }}</div>
+                            <div class="stat-label">All time sales</div>
+                        </div>
+                        <div class="stat-icon"><i class="fas fa-chart-bar"></i></div>
+                    </div>
+                </div>
+
+                <!-- Service Stats -->
+                <div class="stat-card services">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-title">Pending Services</div>
+                            <div class="stat-value">{{ pending_services }}</div>
+                            <div class="stat-label">Awaiting completion</div>
+                        </div>
+                        <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    </div>
+                </div>
+
+                <div class="stat-card services">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-title">Service Revenue</div>
+                            <div class="stat-value">₹{{ "%.2f"|format(service_revenue) }}</div>
+                            <div class="stat-label">{{ completed_services }} completed</div>
+                        </div>
+                        <div class="stat-icon"><i class="fas fa-tools"></i></div>
+                    </div>
+                </div>
+
+                <!-- Stock Stats -->
+                <div class="stat-card stock">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-title">Total Products</div>
+                            <div class="stat-value">{{ total_products }}</div>
+                            <div class="stat-label">In inventory</div>
+                        </div>
+                        <div class="stat-icon"><i class="fas fa-box"></i></div>
+                    </div>
+                </div>
+
+                <div class="stat-card danger">
+                    <div class="stat-header">
+                        <div>
+                            <div class="stat-title">Low Stock Items</div>
+                            <div class="stat-value">{{ low_stock_items }}</div>
+                            <div class="stat-label">Requires reorder</div>
+                        </div>
+                        <div class="stat-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Low Stock Alert -->
+            {% if low_stock_products %}
+            <div class="table-container" style="margin-top: 30px; border-top: 4px solid #ef4444;">
+                <div class="table-header">
+                    <h3><i class="fas fa-exclamation-circle" style="color: #ef4444;"></i> Low Stock Alert</h3>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Current Stock</th>
+                            <th>Price</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in low_stock_products %}
+                        <tr>
+                            <td><strong>{{ product.brand }} {{ product.model }}</strong></td>
+                            <td><span class="status-badge status-pending">{{ product.quantity }} units</span></td>
+                            <td>₹{{ "%.2f"|format(product.price) }}</td>
+                            <td><button class="action-btn btn-edit" onclick="showSection('stock')">Reorder Now</button></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Sales Section -->
+        <div id="sales" class="content-section">
+            <div class="table-container">
+                <div class="table-header">
+                    <h3><i class="fas fa-shopping-cart"></i> Sales Management</h3>
+                    <button class="add-btn" onclick="openModal('addSaleModal')"><i class="fas fa-plus"></i> New Sale</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sale ID</th>
+                            <th>Customer</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if orders %}
+                            {% for order in orders %}
+                            <tr>
+                                <td>#{{ order.order_id or order.id }}</td>
+                                <td>{{ order.customer_name or 'Walk-in' }}</td>
+                                <td>
+                                    {% if order.items %}
+                                        {% set items = order.items | from_json %}
+                                        {% if items %}
+                                            <div>
+                                                <strong>{{ items[0].name or items[0].brand or 'Product' }}</strong>
+                                                {% if items | length > 1 %}
+                                                    <div style="font-size: 12px; color: #64748b;">+{{ items | length - 1 }} more items</div>
+                                                {% endif %}
+                                            </div>
+                                        {% else %}
+                                            <span>Order Items</span>
+                                        {% endif %}
+                                    {% else %}
+                                        <span>Order Items</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if order.items %}
+                                        {% set items = order.items | from_json %}
+                                        {% if items %}
+                                            {% set total_qty = items | sum(attribute='quantity') %}
+                                            {{ total_qty }}
+                                        {% else %}
+                                            1
+                                        {% endif %}
+                                    {% else %}
+                                        1
+                                    {% endif %}
+                                </td>
+                                <td><strong>₹{{ "%.2f"|format(order.total) }}</strong></td>
+                                <td>{{ order.date[:10] if order.date else 'N/A' }}</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn btn-view" data-view-order="{{ order.id }}" title="View Details"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn btn-edit" data-action="edit-order" data-id="{{ order.id }}"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn btn-delete" data-action="delete-order" data-id="{{ order.id }}"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 40px;">
+                                <div class="empty-state">
+                                    <i class="fas fa-inbox"></i>
+                                    <p>No orders found</p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Services Section -->
+        <div id="services" class="content-section">
+            <div class="table-container">
+                <div class="table-header">
+                    <h3><i class="fas fa-tools"></i> Service Management</h3>
+                    <button class="add-btn" onclick="openModal('addServiceModal')"><i class="fas fa-plus"></i> New Service</button>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Service ID</th>
+                            <th>Customer</th>
+                            <th>Phone</th>
+                            <th>Service Type</th>
+                            <th>Status</th>
+                            <th>Cost</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if services %}
+                            {% for service in services %}
+                            <tr>
+                                <td>#{{ service.id }}</td>
+                                <td>{{ service.customer_name }}</td>
+                                <td>{{ service.phone or 'N/A' }}</td>
+                                <td>{{ service.service_type }}</td>
+                                <td><span class="status-badge status-{{ service.status.lower() }}">{{ service.status }}</span></td>
+                                <td>₹{{ "%.2f"|format(service.cost or 0) }}</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn btn-view" data-view-service="{{ service.id }}" title="View Details"><i class="fas fa-eye"></i></button>
+                                        {% if service.status != 'Completed' %}
+                                        <button class="action-btn btn-complete" data-action="complete-service" data-id="{{ service.id }}"><i class="fas fa-check"></i></button>
+                                        {% endif %}
+                                        <button class="action-btn btn-edit" data-action="edit-service" data-id="{{ service.id }}"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn btn-delete" data-action="delete-service" data-id="{{ service.id }}"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 40px;">
+                                <div class="empty-state">
+                                    <i class="fas fa-inbox"></i>
+                                    <p>No service records found</p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Stock Section -->
+        <div id="stock" class="content-section">
+            <!-- Mobiles Stock -->
+            <div class="table-container" style="margin-bottom: 30px;">
+                <div class="table-header">
+                    <h3><i class="fas fa-mobile-alt"></i> Mobiles Stock</h3>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <div class="search-box" style="position: relative;">
+                            <i class="fas fa-search" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #64748b;"></i>
+                            <input type="text" id="mobileSearch" placeholder="Search mobiles..." onkeyup="filterMobiles()" 
+                                style="padding: 10px 15px 10px 40px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; width: 250px; outline: none; transition: all 0.3s ease;">
+                        </div>
+                        <button class="add-btn" onclick="openModal('addMobileModal')"><i class="fas fa-plus"></i> Add Mobile</button>
+                    </div>
+                </div>
+                <table id="mobilesTable">
+                    <thead>
+                        <tr>
+                            <th>Product ID</th>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>Price</th>
+                            <th>In Stock</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if mobiles %}
+                            {% for product in mobiles %}
+                            <tr class="mobile-row" data-index="{{ loop.index }}">
+                                <td>#{{ product.id }}</td>
+                                <td>{{ product.brand }}</td>
+                                <td>{{ product.model }}</td>
+                                <td>₹{{ "%.2f"|format(product.price) }}</td>
+                                <td>{{ product.quantity }}</td>
+                                <td>
+                                    {% if product.quantity > 10 %}
+                                        <span class="status-badge status-completed">In Stock</span>
+                                    {% elif product.quantity > 0 %}
+                                        <span class="status-badge status-in-progress">Low Stock</span>
+                                    {% else %}
+                                        <span class="status-badge status-pending">Out of Stock</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn btn-edit" data-action="edit-mobile" data-id="{{ product.id }}"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn btn-delete" data-action="delete-mobile" data-id="{{ product.id }}"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 40px;">
+                                <div class="empty-state">
+                                    <i class="fas fa-inbox"></i>
+                                    <p>No mobiles found</p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+                <div style="text-align: center; margin-top: 20px; padding: 15px; border-top: 1px solid #e2e8f0;">
+                    <button id="viewAllBtn" class="view-all-btn" onclick="toggleViewAll()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 12px 30px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+                        <i class="fas fa-list"></i> View All ({{ mobiles|length }} items)
+                    </button>
+                </div>
+                <style>
+                    .mobile-row.hidden-row {
+                        display: none;
+                    }
+                    .view-all-btn:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+                    }
+                </style>
+            </div>
+
+            <!-- Accessories Stock -->
+            <div class="table-container">
+                <div class="table-header">
+                    <h3><i class="fas fa-headphones"></i> Accessories Stock</h3>
+                    <button class="add-btn" onclick="openModal('addAccessoryModal')" style="background: linear-gradient(135deg, #f59e0b, #d97706);"><i class="fas fa-plus"></i> Add Accessory</button>
+                </div>
+                <table id="accessoriesTable">
+                    <thead>
+                        <tr>
+                            <th>Product ID</th>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>Price</th>
+                            <th>In Stock</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if accessories %}
+                            {% for product in accessories %}
+                            <tr class="accessory-row" data-index="{{ loop.index }}">
+                                <td>#{{ product.id }}</td>
+                                <td>{{ product.brand }}</td>
+                                <td>{{ product.model }}</td>
+                                <td>₹{{ "%.2f"|format(product.price) }}</td>
+                                <td>{{ product.quantity }}</td>
+                                <td>
+                                    {% if product.quantity > 10 %}
+                                        <span class="status-badge status-completed">In Stock</span>
+                                    {% elif product.quantity > 0 %}
+                                        <span class="status-badge status-in-progress">Low Stock</span>
+                                    {% else %}
+                                        <span class="status-badge status-pending">Out of Stock</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="action-btn btn-edit" data-action="edit-accessory" data-id="{{ product.id }}"><i class="fas fa-edit"></i></button>
+                                        <button class="action-btn btn-delete" data-action="delete-accessory" data-id="{{ product.id }}"><i class="fas fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 40px;">
+                                <div class="empty-state">
+                                    <i class="fas fa-inbox"></i>
+                                    <p>No accessories found</p>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+                <div style="text-align: center; margin-top: 20px; padding: 15px; border-top: 1px solid #e2e8f0;">
+                    <button id="viewAllAccessoriesBtn" class="view-all-btn" onclick="toggleViewAllAccessories()" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white; border: none; padding: 12px 30px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;">
+                        <i class="fas fa-list"></i> View All ({{ accessories|length }} items)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Billing Section -->
+        <div id="billing" class="content-section">
+            <div class="billing-container">
+                <div class="billing-form-container">
+                    <div class="form-header">
+                        <h2><i class="fas fa-receipt"></i> Create Bill</h2>
+                        <div style="display: flex; gap: 20px; margin-top: 15px;">
+                            <label style="display: flex; align-items: center; gap: 8px; color: #475569; font-weight: 600; cursor: pointer;">
+                                <input type="radio" name="item_type" value="product" checked onchange="switchBillingType('product')" style="cursor: pointer;">
+                                <i class="fas fa-box"></i> Product
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 8px; color: #475569; font-weight: 600; cursor: pointer;">
+                                <input type="radio" name="item_type" value="service" onchange="switchBillingType('service')" style="cursor: pointer;">
+                                <i class="fas fa-tools"></i> Service
+                            </label>
+                        </div>
+                    </div>
+                    <form method="POST" id="billing-form" class="billing-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="customer_id">Customer:</label>
+                                <select id="customer_id" name="customer_id">
+                                    <option value="">Select Customer</option>
+                                    {% for customer in customers %}
+                                    <option value="{{ customer.id }}">{{ customer.name }} - {{ customer.phone }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="customer_name">New Customer Name:</label>
+                                <input type="text" id="customer_name" name="customer_name" placeholder="For walk-in customers">
+                            </div>
+                        </div>
+
+                        <!-- Product Section -->
+                        <div id="product-section">
+                            <div class="form-group">
+                                <label for="product_id">Product:</label>
+                                <select id="product_id" name="product_id" onchange="updatePrice()">
+                                    <option value="">Select Product</option>
+                                    {% for product in products %}
+                                    <option value="{{ product.id }}" data-price="{{ product.price }}" data-stock="{{ product.quantity }}" data-type="product">
+                                        {{ product.brand }} {{ product.model }} - ₹{{ "%.2f"|format(product.price) }} (Stock: {{ product.quantity }})
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="quantity">Quantity:</label>
+                                    <input type="number" id="quantity" name="quantity" min="1" onchange="calculateTotal()">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="price">Price per Unit:</label>
+                                    <input type="number" id="price" name="price" step="0.01" min="0" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Service Section -->
+                        <div id="service-section" style="display: none;">
+                            <div class="form-group">
+                                <label for="service_id">Service:</label>
+                                <select id="service_id" name="service_id" onchange="updateServicePrice()">
+                                    <option value="">Select Service</option>
+                                    <option value="screen" data-price="500">Screen Replacement - ₹500</option>
+                                    <option value="battery" data-price="400">Battery Replacement - ₹400</option>
+                                    <option value="water_damage" data-price="800">Water Damage Repair - ₹800</option>
+                                    <option value="software" data-price="300">Software Update - ₹300</option>
+                                    <option value="hardware" data-price="600">Hardware Repair - ₹600</option>
+                                    <option value="other" data-price="0">Other Service - Custom Price</option>
+                                </select>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="service_quantity">Quantity:</label>
+                                    <input type="number" id="service_quantity" name="service_quantity" min="1" value="1" onchange="calculateTotal()">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="service_price">Price per Unit:</label>
+                                    <input type="number" id="service_price" name="service_price" step="0.01" min="0">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="device_details">Device Details:</label>
+                                <input type="text" id="device_details" name="device_details" placeholder="e.g., iPhone 13 Pro, Samsung S21">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="issue_description">Issue Description:</label>
+                                <textarea id="issue_description" name="issue_description" placeholder="Describe the issue..." rows="3" style="width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-family: inherit; font-size: 14px;"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="total_price">Total Price:</label>
+                            <input type="number" id="total_price" name="total_price" step="0.01" min="0" readonly>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="submit-btn">Generate Bill</button>
+                            <button type="button" class="cancel-btn" onclick="resetBillingForm()">Clear Form</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Bill Preview Modal -->
+                <div class="bill-modal" id="billModal">
+                    <div class="bill-content">
+                        <div class="bill-header">
+                            <div class="shop-info">
+                                <h2>MOBILE ENGINEER</h2>
+                                <p>Your Trusted Mobile Shop</p>
+                            </div>
+                            <div class="bill-details">
+                                <div class="bill-number">Bill #<span id="billNumber"></span></div>
+                                <div class="bill-date">Date: <span id="billDate"></span></div>
+                            </div>
+                        </div>
+                        
+                        <div class="bill-body">
+                            <div class="customer-details">
+                                <h3>Customer Details</h3>
+                                <div class="detail-row">
+                                    <span class="detail-label">Name:</span>
+                                    <span class="detail-value" id="billCustomerName"></span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Phone:</span>
+                                    <span class="detail-value" id="billCustomerPhone"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="bill-items">
+                                <h3>Bill Items</h3>
+                                <div class="items-table">
+                                    <div class="table-header" style="display: grid; grid-template-columns: 3fr 1fr 1fr 1fr; gap: 12px; padding-bottom: 8px; border-bottom: 1px solid #e0e0e0; font-weight: 600; color: #212121;">
+                                        <div>Product/Service</div>
+                                        <div>Qty</div>
+                                        <div>Price</div>
+                                        <div>Total</div>
+                                    </div>
+                                    <div id="billItems"></div>
+                                    <div id="billDeviceDetails" style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #f0f0f0; display: none;"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="bill-summary">
+                                <div class="summary-row">
+                                    <span class="summary-label">Subtotal:</span>
+                                    <span class="summary-value" id="billSubtotal"></span>
+                                </div>
+                                <div class="summary-row">
+                                    <span class="summary-label">GST (18%):</span>
+                                    <span class="summary-value" id="billGST"></span>
+                                </div>
+                                <div class="summary-row">
+                                    <span class="summary-label">Delivery:</span>
+                                    <span class="summary-value" id="billDelivery"></span>
+                                </div>
+                                <div class="summary-row total">
+                                    <span class="summary-label">Grand Total:</span>
+                                    <span class="summary-value total-amount" id="billGrandTotal"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bill-footer">
+                            <div class="shop-address">
+                                <h4>Shop Address</h4>
+                                <p><strong>MOBILE ENGINEER</strong></p>
+                                <p>123, Main Market, Shop No. 42</p>
+                                <p>Mobile Shop Building, 1st Floor</p>
+                                <p>New Delhi - 110001</p>
+                                <p>Phone: +91-98765-43210</p>
+                                <p>Email: info@mobileengineer.com</p>
+                                <p>GSTIN: 07AAAPL1234C1ZV</p>
+                            </div>
+                            <div class="payment-info">
+                                <h4>Payment Information</h4>
+                                <p>Payment Mode: <span id="paymentMode">CASH</span></p>
+                                <p>Received Amount: ₹<span id="receivedAmount">0</span></p>
+                            </div>
+                            <div class="terms">
+                                <p><small>* All prices are inclusive of taxes</small></p>
+                                <p><small>* No returns after 7 days</small></p>
+                                <p><small>* Thank you for your business!</small></p>
+                            </div>
+                        </div>
+                        
+                        <div class="bill-actions">
+                            <button class="btn btn-primary" onclick="printBill()">🖨️ Print Bill</button>
+                            <button class="btn btn-success" onclick="saveBill()">💾 Save Bill</button>
+                            <button class="btn btn-secondary" onclick="closeBill()">Close</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Bills Table -->
+                <div class="billing-summary">
+                    <h3><i class="fas fa-history"></i> Recent Bills</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Bill ID</th>
+                                    <th>Customer</th>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for sale in recent_sales %}
+                                <tr>
+                                    <td>{{ sale.id }}</td>
+                                    <td>{{ sale.customer_name or 'Walk-in Customer' }}</td>
+                                    <td>{{ sale.brand }} {{ sale.model }}</td>
+                                    <td>{{ sale.quantity }}</td>
+                                    <td>₹{{ "%.2f"|format(sale.total) }}</td>
+                                    <td>{{ sale.date[:10] }}</td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="6">No bills found</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Add Mobile Modal -->
+    <div id="addMobileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Mobile</h2>
+                <button class="close-btn" onclick="closeModal('addMobileModal')">&times;</button>
+            </div>
+            <form method="POST" action="{{ url_for('admin_add_product') }}">
+                <input type="hidden" name="category" value="mobile">
+                <div class="form-group">
+                    <label>Brand</label>
+                    <input type="text" name="brand" required placeholder="e.g., Apple, Samsung, Xiaomi">
+                </div>
+                <div class="form-group">
+                    <label>Model</label>
+                    <input type="text" name="model" required placeholder="e.g., iPhone 13 Pro, Galaxy S21">
+                </div>
+                <div class="form-group">
+                    <label>Price (₹)</label>
+                    <input type="number" name="price" step="0.01" required placeholder="9999.99">
+                </div>
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input type="number" name="quantity" required placeholder="10">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">Add Mobile</button>
+                    <button type="button" class="cancel-btn" onclick="closeModal('addMobileModal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Accessory Modal -->
+    <div id="addAccessoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Accessory</h2>
+                <button class="close-btn" onclick="closeModal('addAccessoryModal')">&times;</button>
+            </div>
+            <form method="POST" action="{{ url_for('admin_add_product') }}">
+                <input type="hidden" name="category" value="accessory">
+                <div class="form-group">
+                    <label>Brand</label>
+                    <input type="text" name="brand" required placeholder="e.g., Apple, Samsung, JBL">
+                </div>
+                <div class="form-group">
+                    <label>Model/Name</label>
+                    <input type="text" name="model" required placeholder="e.g., AirPods Pro, Charger 25W">
+                </div>
+                <div class="form-group">
+                    <label>Price (₹)</label>
+                    <input type="number" name="price" step="0.01" required placeholder="999.99">
+                </div>
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input type="number" name="quantity" required placeholder="50">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706);">Add Accessory</button>
+                    <button type="button" class="cancel-btn" onclick="closeModal('addAccessoryModal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Product Modal -->
+    <div id="editProductModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Product</h2>
+                <button class="close-btn" onclick="closeModal('editProductModal')">&times;</button>
+            </div>
+            <form id="editProductForm" method="POST">
+                <input type="hidden" name="category" id="edit_product_category" value="mobile">
+                <div class="form-group">
+                    <label>Brand</label>
+                    <input type="text" name="brand" id="edit_product_brand" required placeholder="e.g., Apple, Samsung">
+                </div>
+                <div class="form-group">
+                    <label>Model</label>
+                    <input type="text" name="model" id="edit_product_model" required placeholder="e.g., iPhone 15 Pro">
+                </div>
+                <div class="form-group">
+                    <label>Price (₹)</label>
+                    <input type="number" name="price" id="edit_product_price" step="0.01" required placeholder="9999.99">
+                </div>
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input type="number" name="quantity" id="edit_product_quantity" required placeholder="10">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">Update Product</button>
+                    <button type="button" class="cancel-btn" onclick="closeModal('editProductModal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Sale Modal -->
+    <div id="addSaleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Record New Sale</h2>
+                <button class="close-btn" onclick="closeModal('addSaleModal')">&times;</button>
+            </div>
+            <form method="POST" action="{{ url_for('admin_add_sale') }}">
+                <div class="form-group">
+                    <label>Customer Name</label>
+                    <input type="text" name="customer_name" placeholder="Customer name or 'Walk-in'">
+                </div>
+                <div class="form-group">
+                    <label>Product</label>
+                    <select name="product_id" required>
+                        <option value="">Select Product</option>
+                        {% for product in products %}
+                        <option value="{{ product.id }}">{{ product.brand }} {{ product.model }} (₹{{ product.price }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Quantity</label>
+                    <input type="number" name="quantity" min="1" required placeholder="1">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">Record Sale</button>
+                    <button type="button" class="cancel-btn" onclick="closeModal('addSaleModal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Service Modal -->
+    <div id="addServiceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Register New Service</h2>
+                <button class="close-btn" onclick="closeModal('addServiceModal')">&times;</button>
+            </div>
+            <form method="POST" action="{{ url_for('admin_add_service') }}">
+                <div class="form-group">
+                    <label>Customer Name</label>
+                    <input type="text" name="customer_name" required placeholder="Customer name">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="tel" name="phone" placeholder="9876543210">
+                </div>
+                <div class="form-group">
+                    <label>Service Type</label>
+                    <select name="service_type" required>
+                        <option value="">Select Service Type</option>
+                        <option value="Screen Replacement">Screen Replacement</option>
+                        <option value="Battery Replacement">Battery Replacement</option>
+                        <option value="Water Damage Repair">Water Damage Repair</option>
+                        <option value="Software Update">Software Update</option>
+                        <option value="Hardware Repair">Hardware Repair</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Device Details</label>
+                    <input type="text" name="device_details" placeholder="iPhone 13 Pro, Samsung S21, etc.">
+                </div>
+                <div class="form-group">
+                    <label>Issue Description</label>
+                    <textarea name="issue_description" placeholder="Describe the issue..." rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">Register Service</button>
+                    <button type="button" class="cancel-btn" onclick="closeModal('addServiceModal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Order Modal -->
+    <div id="editOrderModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Order Details</h2>
+                <button class="close-btn" onclick="closeModal('editOrderModal')">&times;</button>
+            </div>
+            <form id="editOrderForm" method="POST">
+                <div class="form-group">
+                    <label>Customer Name</label>
+                    <input type="text" name="customer_name" id="edit_order_customer" required>
+                </div>
+                <div class="form-group">
+                    <label>Total Amount (₹)</label>
+                    <input type="number" name="total" id="edit_order_total" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="status" id="edit_order_status" required>
+                        <option value="pending">Pending</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Shipping Address</label>
+                    <textarea name="address" id="edit_order_address" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">Update Order</button>
+                    <button type="button" class="cancel-btn" onclick="closeModal('editOrderModal')">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Filter Mobiles Function
+        function filterMobiles() {
+            const searchInput = document.getElementById('mobileSearch');
+            const filter = searchInput.value.toLowerCase();
+            const table = document.getElementById('mobilesTable');
+            const tbody = table.getElementsByTagName('tbody')[0];
+            const rows = tbody.getElementsByTagName('tr');
+            
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                // Skip the empty state row
+                if (row.querySelector('.empty-state')) continue;
+                
+                const cells = row.getElementsByTagName('td');
+                if (cells.length < 3) continue;
+                
+                const brand = cells[1].textContent.toLowerCase();
+                const model = cells[2].textContent.toLowerCase();
+                const price = cells[3].textContent.toLowerCase();
+                
+                if (brand.includes(filter) || model.includes(filter) || price.includes(filter)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        }
+
+        // View All Toggle Function
+        let showingAll = false;
+        function toggleViewAll() {
+            const rows = document.querySelectorAll('.mobile-row');
+            const btn = document.getElementById('viewAllBtn');
+            
+            showingAll = !showingAll;
+            
+            rows.forEach((row, index) => {
+                if (showingAll || index < 5) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            if (showingAll) {
+                btn.innerHTML = '<i class="fas fa-compress"></i> Show Less';
+            } else {
+                const totalCount = rows.length;
+                btn.innerHTML = `<i class="fas fa-list"></i> View All (${totalCount} items)`;
+            }
+        }
+
+        // View All Toggle Function for Accessories
+        let showingAllAccessories = false;
+        function toggleViewAllAccessories() {
+            const rows = document.querySelectorAll('.accessory-row');
+            const btn = document.getElementById('viewAllAccessoriesBtn');
+            
+            showingAllAccessories = !showingAllAccessories;
+            
+            rows.forEach((row, index) => {
+                if (showingAllAccessories || index < 5) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+            
+            if (showingAllAccessories) {
+                btn.innerHTML = '<i class="fas fa-compress"></i> Show Less';
+            } else {
+                const totalCount = rows.length;
+                btn.innerHTML = `<i class="fas fa-list"></i> View All (${totalCount} items)`;
+            }
+        }
+
+        // Initialize mobile and accessory rows on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileRows = document.querySelectorAll('.mobile-row');
+            mobileRows.forEach((row, index) => {
+                if (index >= 5) {
+                    row.style.display = 'none';
+                }
+            });
+            
+            const accessoryRows = document.querySelectorAll('.accessory-row');
+            accessoryRows.forEach((row, index) => {
+                if (index >= 5) {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Section Navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.classList.remove('active'));
+
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+
+            // Update menu active state
+            const menuLinks = document.querySelectorAll('.sidebar-menu a');
+            menuLinks.forEach(link => link.classList.remove('active'));
+            event.target.closest('a').classList.add('active');
+        }
+
+        // Modal Functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('show');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('show');
+            }
+        }
+
+        // Action Button Event Listener
+        document.addEventListener('click', function(e) {
+            const action = e.target.closest('[data-action]');
+            if (!action) return;
+            
+            const actionType = action.dataset.action;
+            const id = action.dataset.id;
+            
+            switch(actionType) {
+                case 'delete-product':
+                    deleteProduct(id);
+                    break;
+                case 'edit-product':
+                case 'edit-mobile':
+                case 'edit-accessory':
+                    editProduct(id);
+                    break;
+                case 'delete-order':
+                case 'delete-sale':
+                    deleteSale(id);
+                    break;
+                case 'edit-order':
+                case 'edit-sale':
+                    editSale(id);
+                    break;
+                case 'delete-service':
+                    deleteService(id);
+                    break;
+                case 'edit-service':
+                    editService(id);
+                    break;
+                case 'complete-service':
+                    completeService(id);
+                    break;
+                case 'delete-mobile':
+                case 'delete-accessory':
+                    deleteProduct(id);
+                    break;
+            }
+        });
+
+        // Action Functions
+        function deleteProduct(productId) {
+            if (confirm('Are you sure you want to delete this product?')) {
+                window.location.href = `/admin/delete_product/${productId}`;
+            }
+        }
+
+        function deleteSale(saleId) {
+            if (confirm('Are you sure you want to delete this sale record?')) {
+                window.location.href = `/admin/delete_sale/${saleId}`;
+            }
+        }
+
+        function deleteService(serviceId) {
+            if (confirm('Are you sure you want to delete this service record?')) {
+                window.location.href = `/admin/delete_service/${serviceId}`;
+            }
+        }
+
+        function completeService(serviceId) {
+            const cost = prompt('Enter service cost (₹):');
+            if (cost !== null) {
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/admin/complete_service/${serviceId}`;
+                form.innerHTML = `<input type="hidden" name="cost" value="${cost}">`;
+                document.body.appendChild(form);
+                form.submit();
+            }
+        }
+
+        function editProduct(productId) {
+            fetch(`/admin/get_product/${productId}`)
+                .then(response => response.json())
+                .then(product => {
+                    if (product.error) {
+                        alert(product.error);
+                        return;
+                    }
+                    document.getElementById('edit_product_brand').value = product.brand;
+                    document.getElementById('edit_product_model').value = product.model;
+                    document.getElementById('edit_product_price').value = product.price;
+                    document.getElementById('edit_product_quantity').value = product.quantity;
+                    document.getElementById('edit_product_category').value = product.category || 'mobile';
+                    
+                    document.getElementById('editProductForm').action = `/admin/edit_product/${productId}`;
+                    openModal('editProductModal');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error loading product data');
+                });
+        }
+
+        function editSale(orderId) {
+            fetch(`/admin/get_order/${orderId}`)
+                .then(response => response.json())
+                .then(order => {
+                    if (order.error) {
+                        alert(order.error);
+                        return;
+                    }
+                    document.getElementById('edit_order_customer').value = order.customer_name;
+                    document.getElementById('edit_order_total').value = order.total;
+                    document.getElementById('edit_order_status').value = order.status || 'pending';
+                    document.getElementById('edit_order_address').value = order.address || '';
+                    
+                    document.getElementById('editOrderForm').action = `/admin/edit_order/${orderId}`;
+                    openModal('editOrderModal');
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error loading order data');
+                });
+        }
+
+        function editService(serviceId) {
+            alert('Edit service feature coming soon');
+        }
+
+        // Billing Functions
+        let billData = {};
+        let currentBillingType = 'product';
+
+        function switchBillingType(type) {
+            currentBillingType = type;
+            if (type === 'product') {
+                document.getElementById('product-section').style.display = 'block';
+                document.getElementById('service-section').style.display = 'none';
+                document.getElementById('product_id').removeAttribute('required');
+                document.getElementById('service_id').removeAttribute('required');
+                document.getElementById('quantity').value = '';
+                document.getElementById('service_quantity').value = '1';
+            } else {
+                document.getElementById('product-section').style.display = 'none';
+                document.getElementById('service-section').style.display = 'block';
+                document.getElementById('service_id').setAttribute('required', 'required');
+                document.getElementById('product_id').removeAttribute('required');
+                document.getElementById('service_quantity').value = '1';
+            }
+            document.getElementById('total_price').value = '';
+            resetBillingForm();
+        }
+
+        function updatePrice() {
+            const productSelect = document.getElementById('product_id');
+            const priceInput = document.getElementById('price');
+            const quantityInput = document.getElementById('quantity');
+            
+            if (productSelect.value) {
+                const selectedOption = productSelect.options[productSelect.selectedIndex];
+                const price = parseFloat(selectedOption.dataset.price);
+                const stock = parseInt(selectedOption.dataset.stock);
+                
+                priceInput.value = price.toFixed(2);
+                quantityInput.max = stock;
+                
+                if (quantityInput.value) {
+                    calculateTotal();
+                }
+            } else {
+                priceInput.value = '';
+                quantityInput.max = '';
+                calculateTotal();
+            }
+        }
+
+        function updateServicePrice() {
+            const serviceSelect = document.getElementById('service_id');
+            const priceInput = document.getElementById('service_price');
+            
+            if (serviceSelect.value) {
+                const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
+                const price = parseFloat(selectedOption.dataset.price);
+                
+                if (selectedOption.value === 'other') {
+                    priceInput.value = '';
+                    priceInput.removeAttribute('readonly');
+                } else {
+                    priceInput.value = price.toFixed(2);
+                    priceInput.setAttribute('readonly', 'readonly');
+                }
+                
+                if (document.getElementById('service_quantity').value) {
+                    calculateTotal();
+                }
+            } else {
+                priceInput.value = '';
+                calculateTotal();
+            }
+        }
+
+        function calculateTotal() {
+            let total = 0;
+            
+            if (currentBillingType === 'product') {
+                const price = parseFloat(document.getElementById('price').value) || 0;
+                const quantity = parseInt(document.getElementById('quantity').value) || 0;
+                total = price * quantity;
+            } else {
+                const price = parseFloat(document.getElementById('service_price').value) || 0;
+                const quantity = parseInt(document.getElementById('service_quantity').value) || 1;
+                total = price * quantity;
+            }
+            
+            document.getElementById('total_price').value = total.toFixed(2);
+        }
+
+        function resetBillingForm() {
+            document.getElementById('billing-form').reset();
+            document.getElementById('total_price').value = '';
+            document.getElementById('price').value = '';
+            document.getElementById('service_price').value = '';
+        }
+
+        function generateBill() {
+            const customerId = document.getElementById('customer_id').value;
+            const customerName = document.getElementById('customer_name').value;
+            
+            let itemName, itemQuantity, itemPrice, totalAmount;
+            
+            if (currentBillingType === 'product') {
+                const productId = document.getElementById('product_id').value;
+                const quantity = parseInt(document.getElementById('quantity').value);
+                const price = parseFloat(document.getElementById('price').value);
+                
+                if (!productId || !quantity || !price) {
+                    alert('Please fill all required fields for product billing');
+                    return;
+                }
+                
+                const productSelect = document.getElementById('product_id');
+                const selectedOption = productSelect.options[productSelect.selectedIndex];
+                const productText = selectedOption.text;
+                itemName = productText.split(' - ')[0];
+                itemQuantity = quantity;
+                itemPrice = price;
+                totalAmount = price * quantity;
+            } else {
+                const serviceId = document.getElementById('service_id').value;
+                const quantity = parseInt(document.getElementById('service_quantity').value);
+                const price = parseFloat(document.getElementById('service_price').value);
+                const deviceDetails = document.getElementById('device_details').value;
+                const issueDescription = document.getElementById('issue_description').value;
+                
+                if (!serviceId || !quantity || !price) {
+                    alert('Please fill all required fields for service billing');
+                    return;
+                }
+                
+                const serviceSelect = document.getElementById('service_id');
+                const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
+                itemName = selectedOption.text.split(' - ')[0];
+                itemQuantity = quantity;
+                itemPrice = price;
+                totalAmount = price * quantity;
+                
+                billData.deviceDetails = deviceDetails;
+                billData.issueDescription = issueDescription;
+            }
+            
+            let finalCustomerName = customerName;
+            if (!finalCustomerName && customerId) {
+                const customerOption = document.querySelector(`#customer_id option[value="${customerId}"]`);
+                if (customerOption) {
+                    finalCustomerName = customerOption.text.split(' - ')[0];
+                }
+            }
+            
+            const subtotal = totalAmount;
+            const gst = Math.round(subtotal * 0.18);
+            const delivery = 40;
+            const grandTotal = subtotal + gst + delivery;
+            
+            billData = {
+                ...billData,
+                id: Date.now(),
+                billNumber: 'BILL' + Date.now(),
+                date: new Date().toLocaleDateString('en-IN'),
+                customerName: finalCustomerName || 'Walk-in Customer',
+                customerPhone: customerId ? document.querySelector(`#customer_id option[value="${customerId}"]`).text.split(' - ')[1] : '',
+                itemName: itemName,
+                itemQuantity: itemQuantity,
+                itemPrice: itemPrice,
+                subtotal: subtotal,
+                gst: gst,
+                delivery: delivery,
+                grandTotal: grandTotal,
+                paymentMode: 'CASH',
+                type: currentBillingType
+            };
+            
+            saveBillToRecent(billData);
+            displayBill();
+        }
+
+        function saveBillToRecent(bill) {
+            let recentBills = JSON.parse(localStorage.getItem('recentBills') || '[]');
+            recentBills.unshift(bill);
+            
+            if (recentBills.length > 10) {
+                recentBills = recentBills.slice(0, 10);
+            }
+            
+            localStorage.setItem('recentBills', JSON.stringify(recentBills));
+            updateRecentBillsTable();
+        }
+
+        function updateRecentBillsTable() {
+            const recentBills = JSON.parse(localStorage.getItem('recentBills') || '[]');
+            const tbody = document.querySelector('.billing-summary tbody');
+            
+            if (!tbody) return;
+            
+            tbody.innerHTML = '';
+            
+            recentBills.forEach(bill => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${bill.billNumber}</td>
+                    <td>${bill.customerName}</td>
+                    <td>${bill.itemName}</td>
+                    <td>${bill.itemQuantity}</td>
+                    <td>₹${bill.grandTotal.toFixed(2)}</td>
+                    <td>${bill.date}</td>
+                `;
+                tbody.appendChild(row);
+            });
+            
+            if (recentBills.length === 0) {
+                const row = document.createElement('tr');
+                row.innerHTML = '<td colspan="6">No bills found</td>';
+                tbody.appendChild(row);
+            }
+        }
+
+        function displayBill() {
+            document.getElementById('billNumber').textContent = billData.billNumber;
+            document.getElementById('billDate').textContent = billData.date;
+            document.getElementById('billCustomerName').textContent = billData.customerName;
+            document.getElementById('billCustomerPhone').textContent = billData.customerPhone;
+            document.getElementById('billSubtotal').textContent = '₹' + billData.subtotal.toFixed(2);
+            document.getElementById('billGST').textContent = '₹' + billData.gst.toFixed(2);
+            document.getElementById('billDelivery').textContent = '₹' + billData.delivery.toFixed(2);
+            document.getElementById('billGrandTotal').textContent = '₹' + billData.grandTotal.toFixed(2);
+            document.getElementById('receivedAmount').textContent = billData.grandTotal.toFixed(2);
+            
+            const billItemsHTML = `
+                <div class="bill-item-row">
+                    <div>${billData.itemName}</div>
+                    <div>${billData.itemQuantity}</div>
+                    <div>₹${billData.itemPrice.toFixed(2)}</div>
+                    <div>₹${billData.subtotal.toFixed(2)}</div>
+                </div>
+            `;
+            document.getElementById('billItems').innerHTML = billItemsHTML;
+            
+            // Show device details for services
+            if (billData.type === 'service' && (billData.deviceDetails || billData.issueDescription)) {
+                const deviceDetailsHTML = `
+                    ${billData.deviceDetails ? `<div><strong>Device:</strong> ${billData.deviceDetails}</div>` : ''}
+                    ${billData.issueDescription ? `<div><strong>Issue:</strong> ${billData.issueDescription}</div>` : ''}
+                `;
+                document.getElementById('billDeviceDetails').innerHTML = deviceDetailsHTML;
+                document.getElementById('billDeviceDetails').style.display = 'block';
+            } else {
+                document.getElementById('billDeviceDetails').style.display = 'none';
+            }
+            
+            document.getElementById('billModal').classList.add('active');
+        }
+
+        function printBill() {
+            const invoiceWindow = window.open('', '_blank');
+            const deviceSection = billData.type === 'service' && (billData.deviceDetails || billData.issueDescription) ? `
+                <p><strong>Device Details:</strong> ${billData.deviceDetails || 'N/A'}</p>
+                <p><strong>Issue Description:</strong> ${billData.issueDescription || 'N/A'}</p>
+            ` : '';
+            
+            const invoiceHTML = `
+<!DOCTYPE html>
+<html>
+<head>
+    <title>${billData.billNumber} - Invoice</title>
+    <style>
+        body { font-family: Arial; font-size: 12px; color: #333; }
+        .invoice-header { text-align: center; border-bottom: 3px solid #2874f0; padding-bottom: 20px; margin-bottom: 30px; }
+        .shop-name { font-size: 28px; font-weight: bold; color: #2874f0; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th { background: #f0f0f0; padding: 10px; text-align: left; border: 1px solid #ddd; }
+        td { padding: 10px; border: 1px solid #ddd; }
+        .text-right { text-align: right; }
+        .total { font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="invoice-header">
+        <div class="shop-name">MOBILE ENGINEER</div>
+        <p>123, Main Market, Shop No. 42 | New Delhi - 110001</p>
+        <p>Phone: +91-98765-43210 | GSTIN: 07AAAPL1234C1ZV</p>
+    </div>
+    <p><strong>Invoice #${billData.billNumber}</strong> | Date: ${billData.date}</p>
+    <p><strong>Customer:</strong> ${billData.customerName} | <strong>Phone:</strong> ${billData.customerPhone || 'N/A'}</p>
+    ${deviceSection}
+    <table>
+        <tr>
+            <th style="width:60%">${billData.type === 'service' ? 'Service' : 'Product'}</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Total</th>
+        </tr>
+        <tr>
+            <td>${billData.itemName}</td>
+            <td>${billData.itemQuantity}</td>
+            <td>₹${billData.itemPrice.toFixed(2)}</td>
+            <td>₹${billData.subtotal.toFixed(2)}</td>
+        </tr>
+    </table>
+    <div style="text-align: right; margin-top: 20px;">
+        <p>Subtotal: ₹${billData.subtotal.toFixed(2)}</p>
+        <p>GST (18%): ₹${billData.gst.toFixed(2)}</p>
+        <p>Delivery: ₹${billData.delivery.toFixed(2)}</p>
+        <p class="total" style="font-size: 16px; color: #388e3c;">Grand Total: ₹${billData.grandTotal.toFixed(2)}</p>
+    </div>
+    <div style="text-align: center; margin-top: 40px; font-size: 11px; color: #999;">
+        <p>* All prices are inclusive of taxes | * No returns after 7 days</p>
+        <p>This is a computer-generated invoice. Thank you for your business!</p>
+    </div>
+</body>
+</html>
+            `;
+            
+            invoiceWindow.document.write(invoiceHTML);
+            invoiceWindow.document.close();
+            invoiceWindow.onload = function() {
+                setTimeout(() => {
+                    invoiceWindow.print();
+                    invoiceWindow.close();
+                }, 500);
+            };
+        }
+
+        function saveBill() {
+            const deviceSection = billData.type === 'service' && (billData.deviceDetails || billData.issueDescription) ? `Device: ${billData.deviceDetails || 'N/A'}\nIssue: ${billData.issueDescription || 'N/A'}\n\n` : '';
+            const billContent = `MOBILE ENGINEER - TAX INVOICE\n${billData.billNumber}\nDate: ${billData.date}\n\nCustomer: ${billData.customerName} | Phone: ${billData.customerPhone}\n\n${deviceSection}${billData.type === 'service' ? 'Service' : 'Product'}: ${billData.itemName}\nQuantity: ${billData.itemQuantity}\nPrice: ₹${billData.itemPrice.toFixed(2)}\nSubtotal: ₹${billData.subtotal.toFixed(2)}\n\nGST (18%): ₹${billData.gst.toFixed(2)}\nDelivery: ₹${billData.delivery.toFixed(2)}\nGrand Total: ₹${billData.grandTotal.toFixed(2)}\n\nThank you for your business!`;
+            
+            const blob = new Blob([billContent], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${billData.billNumber}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            alert('Bill saved successfully!');
+        }
+
+        function closeBill() {
+            document.getElementById('billModal').classList.remove('active');
+        }
+
+        // Event Listeners for Billing
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.getElementById('billing-form')) {
+                document.getElementById('billing-form').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    generateBill();
+                });
+                
+                if (document.getElementById('quantity')) {
+                    document.getElementById('quantity').addEventListener('input', calculateTotal);
+                }
+                if (document.getElementById('service_quantity')) {
+                    document.getElementById('service_quantity').addEventListener('input', calculateTotal);
+                }
+                if (document.getElementById('service_price')) {
+                    document.getElementById('service_price').addEventListener('input', calculateTotal);
+                }
+                updateRecentBillsTable();
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            const billModal = document.getElementById('billModal');
+            if (billModal && event.target === billModal) {
+                closeBill();
+            }
+        });
+
+        function printBill() {
+            const invoiceWindow = window.open('', '_blank');
+            const invoiceHTML = `
+<!DOCTYPE html>
+<html>
+<head>
+    <title>${billData.billNumber} - Invoice</title>
+    <style>
+        body { font-family: Arial; font-size: 12px; color: #333; }
+        .invoice-header { text-align: center; border-bottom: 3px solid #2874f0; padding-bottom: 20px; margin-bottom: 30px; }
+        .shop-name { font-size: 28px; font-weight: bold; color: #2874f0; margin-bottom: 5px; }
+        .shop-tagline { font-size: 14px; color: #666; margin-bottom: 10px; }
+        .shop-address { font-size: 11px; color: #666; line-height: 1.3; }
+        .invoice-details { display: flex; justify-content: space-between; margin-bottom: 30px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th { background: #f8f9fa; padding: 12px; text-align: left; font-weight: bold; border: 1px solid #ddd; }
+        td { padding: 12px; border: 1px solid #ddd; }
+        .text-right { text-align: right; }
+        .total-row { font-weight: bold; background: #f8f9fa; }
+        .terms { font-size: 10px; color: #999; text-align: center; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="invoice-header">
+        <div class="shop-name">MOBILE ENGINEER</div>
+        <div class="shop-tagline">Your Trusted Mobile Shop</div>
+        <div class="shop-address">
+            123, Main Market, Shop No. 42, Mobile Shop Building<br>
+            New Delhi - 110001 | Phone: +91-98765-43210<br>
+            GSTIN: 07AAAPL1234C1ZV
+        </div>
+    </div>
+    <div class="invoice-details">
+        <div>Invoice #${billData.billNumber} | Date: ${billData.date}</div>
+        <div><strong>${billData.customerName}</strong><br>${billData.customerPhone || 'N/A'}</div>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th style="width:60%">Product</th>
+                <th style="width:15%">Quantity</th>
+                <th style="width:25%" class="text-right">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>${billData.productName}</td>
+                <td>${billData.quantity}</td>
+                <td class="text-right">₹${billData.subtotal.toFixed(2)}</td>
+            </tr>
+        </tbody>
+    </table>
+    <table style="width: 300px; margin-left: auto;">
+        <tr>
+            <td>Subtotal:</td>
+            <td class="text-right">₹${billData.subtotal.toFixed(2)}</td>
+        </tr>
+        <tr>
+            <td>GST (18%):</td>
+            <td class="text-right">₹${billData.gst.toFixed(2)}</td>
+        </tr>
+        <tr>
+            <td>Delivery:</td>
+            <td class="text-right">₹${billData.delivery.toFixed(2)}</td>
+        </tr>
+        <tr class="total-row">
+            <td><strong>Grand Total:</strong></td>
+            <td class="text-right" style="color: #388e3c; font-size: 16px;">₹${billData.grandTotal.toFixed(2)}</td>
+        </tr>
+    </table>
+    <div class="terms">
+        <p>All prices are inclusive of taxes | No returns after 7 days | Thank you for your business!</p>
+        <p>This is a computer-generated invoice.</p>
+    </div>
+</body>
+</html>
+            `;
+            
+            invoiceWindow.document.write(invoiceHTML);
+            invoiceWindow.document.close();
+            invoiceWindow.onload = function() {
+                setTimeout(() => {
+                    invoiceWindow.print();
+                    invoiceWindow.close();
+                }, 500);
+            };
+        }
+
+        function saveBill() {
+            const billContent = `MOBILE ENGINEER - TAX INVOICE\n${billData.billNumber}\nDate: ${billData.date}\n
+===========================================\nCUSTOMER DETAILS\n===========================================\nName: ${billData.customerName}\nPhone: ${billData.customerPhone}\n
+===========================================\nBILL ITEMS\n===========================================\n${billData.productName}\nQuantity: ${billData.quantity}\nPrice: ₹${billData.price.toFixed(2)}\nSubtotal: ₹${billData.subtotal.toFixed(2)}\n
+===========================================\nPAYMENT SUMMARY\n===========================================\nSubtotal: ₹${billData.subtotal.toFixed(2)}\nGST (18%): ₹${billData.gst.toFixed(2)}\nDelivery: ₹${billData.delivery.toFixed(2)}\nGrand Total: ₹${billData.grandTotal.toFixed(2)}\n
+===========================================\nTERMS & CONDITIONS\n===========================================\n* All prices are inclusive of taxes\n* No returns after 7 days\n* Thank you for your business!`;
+            
+            const blob = new Blob([billContent], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${billData.billNumber}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            alert('Bill saved successfully!');
+        }
+
+        function closeBill() {
+            document.getElementById('billModal').classList.remove('active');
+        }
+
+        // Event Listeners for Billing
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.getElementById('billing-form')) {
+                document.getElementById('billing-form').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    generateBill();
+                });
+                
+                document.getElementById('quantity').addEventListener('input', calculateTotal);
+                updateRecentBillsTable();
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            const billModal = document.getElementById('billModal');
+            if (billModal && event.target === billModal) {
+                closeBill();
+            }
+        });
+
+        // Service Details View Function
+        function viewServiceDetails(serviceId) {
+            fetch(`/admin/get_service/${serviceId}`)
+                .then(response => response.json())
+                .then(service => {
+                    const content = `
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                            <div class="detail-row"><strong>Service ID:</strong> #${service.id}</div>
+                            <div class="detail-row"><strong>Status:</strong> <span class="status-badge status-${service.status.toLowerCase()}">${service.status}</span></div>
+                            <div class="detail-row"><strong>Full Name:</strong> ${service.customer_name}</div>
+                            <div class="detail-row"><strong>Mobile Number:</strong> ${service.phone || 'N/A'}</div>
+                            <div class="detail-row"><strong>Mobile Brand:</strong> ${service.device_brand || 'N/A'}</div>
+                            <div class="detail-row"><strong>Model Name:</strong> ${service.device_model || 'N/A'}</div>
+                            <div class="detail-row"><strong>Device Color:</strong> ${service.device_color || 'N/A'}</div>
+                            <div class="detail-row"><strong>Service Type:</strong> ${service.service_type}</div>
+                            <div class="detail-row"><strong>Condition of Phone:</strong> ${service.phone_condition || 'N/A'}</div>
+                            <div class="detail-row"><strong>Phone Turning On:</strong> ${service.phone_turning_on || 'N/A'}</div>
+                            <div class="detail-row"><strong>Back Cover:</strong> ${service.has_back_cover || 'N/A'}</div>
+                            <div class="detail-row"><strong>SIM Card:</strong> ${service.has_sim_card || 'N/A'}</div>
+                            <div class="detail-row"><strong>Memory Card:</strong> ${service.has_memory_card || 'N/A'}</div>
+                            <div class="detail-row"><strong>Created:</strong> ${service.created_at}</div>
+                            <div class="detail-row"><strong>Cost:</strong> ₹${service.cost || 0}</div>
+                        </div>
+                        <div class="detail-row" style="margin-top: 15px;"><strong>Physical Damage:</strong></div>
+                        <div class="detail-box" style="background:#f8f9fa;padding:12px 15px;border-radius:8px;margin-bottom:15px;">${service.physical_damage || 'None reported'}</div>
+                        <div class="detail-row"><strong>Problem Description:</strong></div>
+                        <div class="detail-box" style="background:#f8f9fa;padding:15px;border-radius:8px;white-space:pre-wrap;min-height:80px;">${service.issue_description || 'No details provided'}</div>
+                    `;
+                    
+                    document.getElementById('serviceDetailContent').innerHTML = content;
+                    document.getElementById('serviceDetailModal').classList.add('show');
+                })
+                .catch(error => {
+                    alert('Error loading service details');
+                });
+        }
+
+        function closeServiceDetail() {
+            document.getElementById('serviceDetailModal').classList.remove('show');
+        }
+
+        // Event delegation for view service buttons
+        document.addEventListener('click', function(e) {
+            const viewBtn = e.target.closest('[data-view-service]');
+            if (viewBtn) {
+                const serviceId = viewBtn.getAttribute('data-view-service');
+                viewServiceDetails(serviceId);
+            }
+        });
+
+        // Event delegation for view order buttons
+        document.addEventListener('click', function(e) {
+            const viewBtn = e.target.closest('[data-view-order]');
+            if (viewBtn) {
+                const orderId = viewBtn.getAttribute('data-view-order');
+                viewOrderDetails(orderId);
+            }
+        });
+
+        // Order Details View Function
+        function viewOrderDetails(orderId) {
+            fetch(`/admin/get_order/${orderId}`)
+                .then(response => response.json())
+                .then(order => {
+                    const items = JSON.parse(order.items || '[]');
+                    const itemsList = items.map(item => `
+                        <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e5e7eb;">
+                            <div>
+                                <div style="font-weight: 600;">${item.name || 'Product'}</div>
+                                <div style="font-size: 12px; color: #64748b;">${item.brand || ''} ${item.model || ''}</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div>₹${item.price || 0} × ${item.quantity || 1}</div>
+                                <div style="font-weight: 600;">₹${(item.price || 0) * (item.quantity || 1)}</div>
+                            </div>
+                        </div>
+                    `).join('');
+                    
+                    const content = `
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                            <div class="detail-row"><strong>Order ID:</strong> #${order.order_id || order.id}</div>
+                            <div class="detail-row"><strong>Date:</strong> ${order.date}</div>
+                            <div class="detail-row"><strong>Customer Name:</strong> ${order.customer_name || 'Walk-in'}</div>
+                            <div class="detail-row"><strong>Status:</strong> <span class="status-badge status-${order.status || 'pending'}">${order.status || 'Pending'}</span></div>
+                            <div class="detail-row"><strong>Payment Method:</strong> ${order.payment_method || 'N/A'}</div>
+                            <div class="detail-row"><strong>Total Amount:</strong> ₹${order.total}</div>
+                        </div>
+                        <div class="detail-row" style="margin-top: 15px;"><strong>Shipping Address:</strong></div>
+                        <div class="detail-box" style="background:#f8f9fa;padding:12px 15px;border-radius:8px;margin-bottom:15px;">${order.address || 'Not provided'}</div>
+                        <div class="detail-row"><strong>Order Items:</strong></div>
+                        <div class="detail-box" style="background:#f8f9fa;padding:15px;border-radius:8px;">
+                            ${itemsList || '<div>No items found</div>'}
+                            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px; padding-top: 15px; margin-top: 10px; border-top: 2px solid #dee2e6;">
+                                <span>Total:</span>
+                                <span>₹${order.total}</span>
+                            </div>
+                        </div>
+                    `;
+                    
+                    document.getElementById('orderDetailContent').innerHTML = content;
+                    document.getElementById('orderDetailModal').classList.add('show');
+                })
+                .catch(error => {
+                    console.error('Error loading order details:', error);
+                    alert('Error loading order details');
+                });
+        }
+
+        function closeOrderDetail() {
+            document.getElementById('orderDetailModal').classList.remove('show');
+        }
+    </script>
+
+    <!-- Service Detail Modal -->
+    <div class="modal" id="serviceDetailModal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-tools"></i> Service Request Details</h3>
+                <button class="close-btn" onclick="closeServiceDetail()">&times;</button>
+            </div>
+            <div class="modal-body" id="serviceDetailContent">
+                <!-- Content will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeServiceDetail()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Detail Modal -->
+    <div class="modal" id="orderDetailModal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-shopping-cart"></i> Order Details</h3>
+                <button class="close-btn" onclick="closeOrderDetail()">&times;</button>
+            </div>
+            <div class="modal-body" id="orderDetailContent">
+                <!-- Content will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeOrderDetail()">Close</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

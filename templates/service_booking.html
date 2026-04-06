@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Service - MOBILE ENGINEER</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .navbar { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-brand { font-size: 24px; font-weight: 700; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-menu { display: flex; gap: 25px; }
+        .nav-link { color: #4a5568; text-decoration: none; font-weight: 600; padding: 10px 20px; border-radius: 10px; transition: all 0.3s ease; }
+        .nav-link:hover { background: rgba(102, 126, 234, 0.1); color: #667eea; }
+        .nav-link.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        .page-header { text-align: center; margin-bottom: 40px; color: white; }
+        .page-header h1 { font-size: 36px; font-weight: 800; margin-bottom: 10px; }
+        .page-header p { font-size: 16px; opacity: 0.9; }
+        
+        .booking-form { background: white; border-radius: 24px; padding: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+        .form-section { margin-bottom: 35px; }
+        .section-title { font-size: 18px; font-weight: 700; color: #1a202c; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .section-title i { color: #667eea; font-size: 20px; }
+        
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #4a5568; font-size: 14px; }
+        .form-group label .required { color: #e74c3c; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 14px 18px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 15px; transition: all 0.3s ease; background: #f8fafc; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #667eea; background: white; box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1); }
+        .form-group textarea { min-height: 100px; resize: vertical; }
+        
+        .radio-group { display: flex; gap: 20px; flex-wrap: wrap; }
+        .radio-option { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 10px 16px; background: #f8fafc; border-radius: 10px; border: 2px solid #e2e8f0; transition: all 0.3s ease; }
+        .radio-option:hover { border-color: #667eea; background: #f0f4ff; }
+        .radio-option input[type="radio"] { width: 18px; height: 18px; accent-color: #667eea; cursor: pointer; }
+        .radio-option label { margin: 0; font-weight: 500; color: #4a5568; cursor: pointer; }
+        
+        .checkbox-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .checkbox-option { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: #f8fafc; border-radius: 10px; border: 2px solid #e2e8f0; cursor: pointer; transition: all 0.3s ease; }
+        .checkbox-option:hover { border-color: #667eea; background: #f0f4ff; }
+        .checkbox-option input[type="checkbox"] { width: 20px; height: 20px; accent-color: #667eea; cursor: pointer; }
+        .checkbox-option label { margin: 0; font-weight: 500; color: #4a5568; cursor: pointer; }
+        
+        .submit-btn { width: 100%; padding: 18px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 14px; font-weight: 700; font-size: 18px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4); margin-top: 20px; }
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5); }
+        
+        .service-info { background: linear-gradient(135deg, #f0f4ff 0%, #e8edff 100%); padding: 20px; border-radius: 16px; margin-bottom: 30px; border-left: 4px solid #667eea; }
+        .service-info h3 { color: #667eea; font-size: 16px; margin-bottom: 5px; }
+        .service-info p { color: #64748b; font-size: 14px; }
+        
+        @media (max-width: 768px) {
+            .form-row { grid-template-columns: 1fr; }
+            .checkbox-group { grid-template-columns: 1fr; }
+            .booking-form { padding: 25px; }
+            .page-header h1 { font-size: 28px; }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-mobile-alt"></i>
+            MOBILE ENGINEER
+        </div>
+        <div class="nav-menu">
+            <a href="/dashboard" class="nav-link">Dashboard</a>
+            <a href="/mobiles" class="nav-link">Mobiles</a>
+            <a href="/accessories" class="nav-link">Accessories</a>
+            <a href="/basic-service" class="nav-link active">Services</a>
+            <a href="#" class="nav-link logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-clipboard-list"></i> Book Service</h1>
+            <p>Fill in the details below to schedule your mobile repair service</p>
+        </div>
+
+        <div class="booking-form">
+            <div class="service-info">
+                <h3><i class="fas fa-tools"></i> Selected Service</h3>
+                <p id="selectedService">Service Name</p>
+            </div>
+
+            <form id="serviceBookingForm">
+                <!-- Personal Information -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <i class="fas fa-user"></i>
+                        Personal Information
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Full Name <span class="required">*</span></label>
+                            <input type="text" name="fullName" id="fullName" required placeholder="Enter your full name">
+                        </div>
+                        <div class="form-group">
+                            <label>Mobile Number <span class="required">*</span></label>
+                            <input type="tel" name="mobileNumber" id="mobileNumber" required placeholder="+91 98765 43210">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phone Details -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <i class="fas fa-mobile-alt"></i>
+                        Phone Details
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Mobile Brand <span class="required">*</span></label>
+                            <select name="mobileBrand" id="mobileBrand" required>
+                                <option value="">Select Brand</option>
+                                <option value="samsung">Samsung</option>
+                                <option value="vivo">Vivo</option>
+                                <option value="redmi">Redmi</option>
+                                <option value="oppo">OPPO</option>
+                                <option value="realme">Realme</option>
+                                <option value="iphone">iPhone</option>
+                                <option value="oneplus">OnePlus</option>
+                                <option value="nokia">Nokia</option>
+                                <option value="motorola">Motorola</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Model Name <span class="required">*</span></label>
+                            <input type="text" name="modelName" id="modelName" required placeholder="e.g., Galaxy S21, Redmi Note 10">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Phone Color <span style="color: #94a3b8; font-weight: 400;">(Optional)</span></label>
+                            <input type="text" name="phoneColor" id="phoneColor" placeholder="e.g., Black, Blue, White">
+                        </div>
+                        <div class="form-group">
+                            <label>When did the problem start? <span class="required">*</span></label>
+                            <input type="text" name="problemStart" id="problemStart" required placeholder="e.g., Yesterday, 2 days ago, 1 week ago">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Phone Condition -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <i class="fas fa-stethoscope"></i>
+                        Phone Condition
+                    </div>
+                    <div class="form-group">
+                        <label>Condition of Phone <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" name="phoneCondition" id="working" value="working" required>
+                                <label for="working">Working</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="phoneCondition" id="dead" value="dead" required>
+                                <label for="dead">Dead</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="phoneCondition" id="partially" value="partially" required>
+                                <label for="partially">Partially Working</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Is the phone turning ON? <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" name="turningOn" id="turnYes" value="yes" required>
+                                <label for="turnYes">Yes</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="turningOn" id="turnNo" value="no" required>
+                                <label for="turnNo">No</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Physical Damage -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Physical Damage
+                    </div>
+                    <div class="form-group">
+                        <label>Any physical damage? (Select all that apply)</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="physicalDamage" id="fallen" value="fallen">
+                                <label for="fallen">Fallen / Dropped</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="physicalDamage" id="water" value="water">
+                                <label for="water">Water Damage</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="physicalDamage" id="screenCrack" value="screenCrack">
+                                <label for="screenCrack">Screen Cracked</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="physicalDamage" id="bent" value="bent">
+                                <label for="bent">Phone Bent</label>
+                            </div>
+                            <div class="checkbox-option">
+                                <input type="checkbox" name="physicalDamage" id="noDamage" value="none">
+                                <label for="noDamage">No Physical Damage</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Back Cover Condition <span class="required">*</span></label>
+                        <div class="radio-group">
+                            <div class="radio-option">
+                                <input type="radio" name="backCover" id="backIntact" value="intact" required>
+                                <label for="backIntact">Intact / Good</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="backCover" id="backCracked" value="cracked" required>
+                                <label for="backCracked">Cracked / Broken</label>
+                            </div>
+                            <div class="radio-option">
+                                <input type="radio" name="backCover" id="backMissing" value="missing" required>
+                                <label for="backMissing">Missing</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Accessories -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <i class="fas fa-puzzle-piece"></i>
+                        Accessories Present
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>SIM Card <span class="required">*</span></label>
+                            <div class="radio-group">
+                                <div class="radio-option">
+                                    <input type="radio" name="simCard" id="simYes" value="yes" required>
+                                    <label for="simYes">Yes</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" name="simCard" id="simNo" value="no" required>
+                                    <label for="simNo">No</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Memory Card <span class="required">*</span></label>
+                            <div class="radio-group">
+                                <div class="radio-option">
+                                    <input type="radio" name="memoryCard" id="memoryYes" value="yes" required>
+                                    <label for="memoryYes">Yes</label>
+                                </div>
+                                <div class="radio-option">
+                                    <input type="radio" name="memoryCard" id="memoryNo" value="no" required>
+                                    <label for="memoryNo">No</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Details -->
+                <div class="form-section">
+                    <div class="section-title">
+                        <i class="fas fa-comment-alt"></i>
+                        Additional Details
+                    </div>
+                    <div class="form-group">
+                        <label>Describe the problem in detail <span style="color: #94a3b8; font-weight: 400;">(Optional)</span></label>
+                        <textarea name="problemDescription" id="problemDescription" placeholder="Please describe what issue you're facing with your phone..."></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-calendar-check"></i> Submit Booking Request
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get service name from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const serviceName = urlParams.get('service') || 'Service';
+        document.getElementById('selectedService').textContent = serviceName;
+
+        // Form submission
+        document.getElementById('serviceBookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            
+            console.log('Form data collected:', data);
+            
+            // Get checked physical damages
+            const physicalDamages = [];
+            document.querySelectorAll('input[name="physicalDamage"]:checked').forEach(cb => {
+                physicalDamages.push(cb.value);
+            });
+            data.physicalDamage = physicalDamages;
+            
+            console.log('Data with physical damage:', data);
+            
+            // Save to localStorage (for demo purposes)
+            const bookings = JSON.parse(localStorage.getItem('serviceBookings') || '[]');
+            data.id = Date.now();
+            data.serviceName = serviceName;
+            data.bookingDate = new Date().toLocaleDateString();
+            data.status = 'Pending';
+            bookings.push(data);
+            localStorage.setItem('serviceBookings', JSON.stringify(bookings));
+            
+            const requestData = {
+                service_name: serviceName,
+                fullName: data.fullName,
+                mobileNumber: data.mobileNumber,
+                mobileBrand: data.mobileBrand,
+                modelName: data.modelName,
+                phoneColor: data.phoneColor,
+                problemStart: data.problemStart,
+                phoneCondition: data.phoneCondition,
+                turningOn: data.turningOn,
+                backCover: data.backCover,
+                simCard: data.simCard,
+                memoryCard: data.memoryCard,
+                physicalDamage: physicalDamages.join(', '),
+                issueDescription: data.problemDescription
+            };
+            
+            console.log('Sending to server:', requestData);
+            
+            // Send booking to server for admin management
+            fetch('/api/book_service', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    console.log('Service booked successfully:', result);
+                } else {
+                    console.error('Error booking service:', result.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+            
+            // Show success modal with options
+            showSuccessModal();
+        });
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `position: fixed; top: 20px; right: 20px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 15px 25px; border-radius: 12px; z-index: 10000; font-weight: 600; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);`;
+            notification.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+            document.body.appendChild(notification);
+            setTimeout(() => { notification.remove(); }, 3000);
+        }
+
+        function showSuccessModal() {
+            // Create modal overlay
+            const modal = document.createElement('div');
+            modal.id = 'successModal';
+            modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 10000; display: flex; justify-content: center; align-items: center;';
+            
+            modal.innerHTML = `
+                <div style="background: white; border-radius: 20px; padding: 40px; max-width: 400px; text-align: center; animation: slideUp 0.3s ease;">
+                    <div style="font-size: 60px; margin-bottom: 20px;">🎉</div>
+                    <h2 style="color: #1a202c; margin-bottom: 10px; font-size: 24px;">Service Request Submitted!</h2>
+                    <p style="color: #64748b; margin-bottom: 30px; font-size: 16px;">Your service booking has been successfully submitted.</p>
+                    <div style="display: flex; gap: 15px; justify-content: center;">
+                        <button onclick="goToDashboard()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 15px 25px; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; flex: 1;">
+                            <i class="fas fa-home"></i> Dashboard
+                        </button>
+                        <button onclick="goToServiceRequests()" style="background: #f8f9fa; color: #1a202c; border: 2px solid #dee2e6; padding: 15px 25px; border-radius: 12px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; flex: 1;">
+                            <i class="fas fa-tools"></i> My Service Requests
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+        }
+
+        function goToDashboard() {
+            window.location.href = '/dashboard';
+        }
+
+        function goToServiceRequests() {
+            window.location.href = '/service_requests';
+        }
+    </script>
+</body>
+</html>

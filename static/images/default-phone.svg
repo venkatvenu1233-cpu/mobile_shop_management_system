@@ -1,0 +1,10 @@
+<!-- Default phone placeholder -->
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" fill="#667eea"/>
+  <rect x="30" y="50" width="140" height="100" rx="15" fill="#000000"/>
+  <rect x="40" y="60" width="120" height="80" rx="10" fill="#1a1a1a"/>
+  <circle cx="100" cy="100" r="35" fill="#333333"/>
+  <rect x="85" y="85" width="30" height="30" rx="5" fill="#000000"/>
+  <circle cx="100" cy="100" r="2" fill="#666666"/>
+  <text x="100" y="180" text-anchor="middle" fill="#ffffff" font-family="Arial" font-size="10">PHONE</text>
+</svg>
